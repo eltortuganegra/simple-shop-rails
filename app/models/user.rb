@@ -13,20 +13,26 @@ class User < ActiveRecord::Base
     format: {
       with: USERNAME_VALID_FORMAT_PATTERN,
       message: 'Username must content only alphanumeric and underscore characters.'
-    },
-    uniqueness: true
+    }
 
-    validates :password,
-      length: {
-        minimum: PASSWORD_MINIMUM_LENGHT
-      }
+  validates :username,
+    uniqueness: true,
+    on: :create
 
-    validates :email,
-       uniqueness: true,
-       format: {
-         with: EMAIL_VALID_FORMAT_PATTERN,
-         message: 'Email must be have a valid email.'
-       }
+  validates :password,
+    length: {
+      minimum: PASSWORD_MINIMUM_LENGHT
+    }
+
+  validates :email,
+     format: {
+       with: EMAIL_VALID_FORMAT_PATTERN,
+       message: 'Email must be have a valid email.'
+     }
+
+  validates :email,
+     uniqueness: true,
+     on: :create
 
   has_secure_password
 end

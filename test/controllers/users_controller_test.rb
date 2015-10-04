@@ -53,4 +53,10 @@ class UsersControllerTest < ActionController::TestCase
 
     assert_redirected_to users_path
   end
+
+  test "Not should update an user if username and/or email are changed" do
+    patch :update, id: @user, user: { email: @new_user.email, password: 'secret2', password_confirmation: 'secret2', username: @new_user.username }
+    assert_response :success
+    assert_select '#error_explanation ul li', 2
+  end
 end

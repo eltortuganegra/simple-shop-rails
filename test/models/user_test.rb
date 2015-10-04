@@ -55,12 +55,12 @@ class UserTest < ActiveSupport::TestCase
     assert new_user.invalid?, "Username must be unique."
   end
 
-  test "Password must be equal or greather than 6 characteres" do
+  test "Password must be equal or greater than 6 characters" do
     new_user = @new_user
     new_user.password = PASSWORD_INVALID_5_CHARACTERS
     new_user.password_confirmation = PASSWORD_INVALID_5_CHARACTERS
 
-    assert new_user.invalid?, "Password must be equal or greather than 6 characteres."
+    assert new_user.invalid?, "Password must be equal or greater than 6 characters."
   end
 
   test "Email must be unique" do

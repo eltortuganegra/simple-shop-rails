@@ -41,10 +41,16 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
-      if @user.update(user_params)
+      if ! username_modified? && ! email_modified? && @user.update(user_params)
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @user }
       else
+        if username_modified?
+          @user.errors.add(:username, 'can not be changed')
+        end
+        if email_modified?
+          @user.errors.add(:email, 'can not be changed')
+        end
         format.html { render :edit }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
@@ -71,4 +77,13 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit(:username, :email, :password, :password_confirmation)
     end
+
+    def username_modified?
+      @user.username != user_params[:username]
+    end
+
+    def email_modified?
+      @user.email != user_params[:email]
+    end
+
 end
