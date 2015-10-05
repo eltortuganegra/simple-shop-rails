@@ -67,6 +67,14 @@ class UsersController < ApplicationController
     end
   end
 
+  # GET /confirm_account
+  def confirm_account
+    @user = User.new
+    if params.has_key?(:confirmation_code)
+      @user.confirmation_code = params[:confirmation_code]
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -85,5 +93,6 @@ class UsersController < ApplicationController
     def email_modified?
       @user.email != user_params[:email]
     end
+
 
 end
