@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
-  get 'signin' => 'users#new'
+  get 'signup' => 'users#new'
   get 'confirm_account' => 'users#confirm_account'
   post 'confirm_account' => 'users#validate_confirm_account'
   get 'login' => 'users#login'
