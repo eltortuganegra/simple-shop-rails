@@ -1,0 +1,9 @@
+Confirm account
+
+Hi <%= @user.username %>,
+you need confirm you account. The confirmation code is:
+<%= @user.confirmation_code %>
+
+You can confirm your account doing click in the next link:
+/confirm_account?confirm_code=<%= @user.confirmation_code %>
+Thanks you!

@@ -1,0 +1,8 @@
+<h1>Confirm account</h1>
+
+<p>Hi <%= @user.username %>,</p>
+<p>you need confirm you account. The confirmation code is:</p>
+<p><%= @user.confirmation_code %></p>
+<p>You can confirm your account doing click in the next link:</p>
+<p><a href="<%= Rails.configuration.x.domain %>/confirm_account?confirm_code=<%= @user.confirmation_code %>">Confirm account</a></p>
+<p>Thanks you!</p>
