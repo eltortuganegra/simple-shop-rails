@@ -28,7 +28,7 @@ class UsersControllerTest < ActionController::TestCase
 
     end
 
-    assert_redirected_to user_path(assigns(:user))
+    assert_redirected_to confirm_account_path
   end
 
   test "should show user" do
@@ -63,7 +63,7 @@ class UsersControllerTest < ActionController::TestCase
   test "should confirm an user account" do
     pending_user = users(:UserPendingConfirm)
     post :validate_confirm_account, user: { confirmation_code: pending_user.confirmation_code }
-    assert_redirected_to '/login'
+    assert_redirected_to login_path
   end
 
 end

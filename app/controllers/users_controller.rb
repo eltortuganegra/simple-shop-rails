@@ -27,10 +27,10 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     respond_to do |format|
-      @user.confirmation_code = SecureRandom.uuid      
+      @user.confirmation_code = SecureRandom.uuid
       if @user.save
         UserNotifier.confirmationEmail(@user).deliver_now
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.html { redirect_to confirm_account_path, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -86,7 +86,7 @@ class UsersController < ApplicationController
         if @user
             @user.confirmation_code = nil
             if @user.save(validate: false)
-              format.html { redirect_to '/login', notice: 'Account was successfully validated.' }
+              format.html { redirect_to login_path, notice: 'Account was successfully validated.' }
               format.json { render :show, status: :ok, location: @user }
             else
               @user.errors.add(:confirmation_code, 'has not been validated. Please try again.')
