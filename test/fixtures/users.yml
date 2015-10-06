@@ -19,3 +19,9 @@ Elaine_Marley:
   username: elaine_marley
   email: elaine.marley@themonkeyisland.com
   password_digest: <%= BCrypt::Password.create('secret') %>
+
+UserPendingConfirm:
+  username: peding_confirm
+  email: pending_confirm@themonkeyisland.com
+  password_digest: <%= BCrypt::Password.create('secret') %>
+  confirmation_code: valid_confirmation_code

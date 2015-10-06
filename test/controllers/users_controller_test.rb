@@ -59,4 +59,11 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
     assert_select '#error_explanation ul li', 2
   end
+
+  test "should confirm an user account" do
+    pending_user = users(:UserPendingConfirm)
+    post :validate_confirm_account, user: { confirmation_code: pending_user.confirmation_code }
+    assert_redirected_to '/login'    
+  end
+
 end

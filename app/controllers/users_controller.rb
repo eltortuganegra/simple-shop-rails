@@ -75,6 +75,42 @@ class UsersController < ApplicationController
     end
   end
 
+  # POST /confirm_account
+  def validate_confirm_account
+    respond_to do |format|
+      if params[:user].present? && params[:user][:confirmation_code].present?
+        @user = User.find_by confirmation_code: params[:user][:confirmation_code]
+
+        if @user
+            @user.confirmation_code = nil
+            if @user.save(validate: false)
+              format.html { redirect_to '/login', notice: 'Account was successfully validated.' }
+              format.json { render :show, status: :ok, location: @user }
+            else
+              @user.errors.add(:confirmation_code, 'has not been validated. Please try again.')
+              format.html { render :confirm_account }
+              format.json { render json: @user.errors, status: :unprocessable_entity }
+            end
+        else
+          @user = User.new
+          @user.errors.add(:confirmation_code, 'not found.')
+          format.html { render :confirm_account }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
+      else
+        @user = User.new
+        @user.errors.add(:confirmation_code, 'is empty.')
+        format.html { render :confirm_account }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # /login
+  def login
+    @user = User.new
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -93,6 +129,7 @@ class UsersController < ApplicationController
     def email_modified?
       @user.email != user_params[:email]
     end
+
 
 
 end
