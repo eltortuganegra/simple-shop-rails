@@ -1,4 +1,16 @@
 Rails.application.routes.draw do
+  get 'site/index'
+
+  get 'site/about'
+
+  get 'site/terms'
+
+  get 'site/privacy'
+
+  get 'site/cookies'
+
+  get 'site/contact'
+
   resources :users
 
   # The priority is based upon order of creation: first created -> highest priority.
