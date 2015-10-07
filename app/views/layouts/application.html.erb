@@ -7,7 +7,12 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
+  <div id="toolbar">
+    <ul>
+      <li><%= link_to 'sign up', signup_path %></li>
+      <li><%= link_to 'login', login_path %></li>
+    </ul>
+  </div>
 <%= yield %>
 
 </body>
