@@ -1,15 +1,11 @@
 Rails.application.routes.draw do
-  get 'site/index'
-
-  get 'site/about'
-
-  get 'site/terms'
-
-  get 'site/privacy'
-
-  get 'site/cookies'
-
-  get 'site/contact'
+  
+  # Static pages
+  get 'about' => 'site#about'
+  get 'terms' => 'site#terms'
+  get 'privacy' => 'site#privacy'
+  get 'cookies' => 'site#cookies_page'
+  get 'contact' => 'site#contact'
 
   resources :users
 

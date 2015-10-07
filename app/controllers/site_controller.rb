@@ -11,7 +11,7 @@ class SiteController < ApplicationController
   def privacy
   end
 
-  def cookies
+  def cookies_page
   end
 
   def contact
