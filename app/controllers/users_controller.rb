@@ -86,7 +86,7 @@ class UsersController < ApplicationController
         if @user
             @user.confirmation_code = nil
             if @user.save(validate: false)
-              format.html { redirect_to login_path, notice: 'Account was successfully validated.' }
+              format.html { redirect_to login_path, notice: 'Account was successfully validated! Please login with your data.' }
               format.json { render :show, status: :ok, location: @user }
             else
               @user.errors.add(:confirmation_code, 'has not been validated. Please try again.')
