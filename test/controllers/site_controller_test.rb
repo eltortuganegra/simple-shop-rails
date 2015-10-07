@@ -22,7 +22,7 @@ class SiteControllerTest < ActionController::TestCase
   end
 
   test "should get cookies" do
-    get :cookies
+    get :cookies_page
     assert_response :success
   end
 
