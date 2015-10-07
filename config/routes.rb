@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  
+  # Root page
+  root 'site#index'
+
   # Static pages
   get 'about' => 'site#about'
   get 'terms' => 'site#terms'
