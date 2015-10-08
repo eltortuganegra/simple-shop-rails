@@ -1,25 +1,14 @@
-<%= form_for(@user, url: {action: 'login'}) do |f| %>
-  <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-
-      <ul>
-      <% @user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= form_tag( login_path, method: 'post') do %>
   <div class="field">
-    <%= f.label :username %><br>
-    <%= f.text_field :username %>
+    <%= label_tag 'Username or password' %><br>
+    <%= text_field_tag 'session[username_or_email]' %>
   </div>
   <div class="field">
-    <%= f.label :password %><br>
-    <%= f.text_field :password %>
+    <%= label_tag :password %><br>
+    <%= password_field_tag 'session[password]' %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Confirm account" %>
+    <%= submit_tag "log in" %>
   </div>
 <% end %>

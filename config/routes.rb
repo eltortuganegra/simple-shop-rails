@@ -9,6 +9,18 @@ Rails.application.routes.draw do
   get 'cookies' => 'site#cookies_page'
   get 'contact' => 'site#contact'
 
+  # Login and logout
+  get 'login' => 'users#login'
+  post 'login' => 'sessions#create'
+  get 'logout' => 'sessions#destroy'
+
+  # Register process
+  get 'signup' => 'users#new'
+  get 'confirm_account' => 'users#confirm_account'
+  post 'confirm_account' => 'users#validate_confirm_account'
+
+
+  # Users
   resources :users
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -19,10 +31,7 @@ Rails.application.routes.draw do
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
-  get 'signup' => 'users#new'
-  get 'confirm_account' => 'users#confirm_account'
-  post 'confirm_account' => 'users#validate_confirm_account'
-  get 'login' => 'users#login'
+
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
