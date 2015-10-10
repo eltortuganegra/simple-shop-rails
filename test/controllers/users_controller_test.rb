@@ -57,7 +57,7 @@ class UsersControllerTest < ActionController::TestCase
   test "Not should update an user if username and/or email are changed" do
     patch :update, id: @user, user: { email: @new_user.email, password: 'secret2', password_confirmation: 'secret2', username: @new_user.username }
     assert_response :success
-    assert_select '#error_explanation ul li', 2
+    assert_select '#error_explanation ul li', 2, 'Must have two errors: user and email.'
   end
 
   test "should confirm an user account" do
