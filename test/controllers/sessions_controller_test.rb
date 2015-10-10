@@ -18,9 +18,9 @@ class SessionsControllerTest < ActionController::TestCase
     unconfirmed_user = users(:UserPendingConfirm)
     post :create, session: {username_or_email: unconfirmed_user.email, password: 'secret'}
     assert_redirected_to login_path
-    assert_equal 'You must confirm your account. Please check your email and look for the confirmation code.',
+    assert_equal 'You must <a href="' + confirm_account_path + '">confirm your account</a>. Please check your email and look for the confirmation code.',
       flash[:notice],
-      'Flash not found: You must confirm your account. Please check your email and look for the confirmation code.'
+      'Flash not found: You must <a href="' + confirm_account_path + '">confirm your account</a>. Please check your email and look for the confirmation code.'
   end
 
   test "not should login if an user is confirmed but password is not valid" do

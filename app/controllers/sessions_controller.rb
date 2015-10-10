@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
         if user.nil? || user.confirmation_code.nil?
           format.html { redirect_to login_path, notice: 'The username and password that you entered did not match our records. Please double-check and try again.' }
         else
-          format.html { redirect_to login_path, notice: 'You must confirm your account. Please check your email and look for the confirmation code.' }
+          format.html { redirect_to login_path, notice: 'You must <a href="' + confirm_account_path + '">confirm your account</a>. Please check your email and look for the confirmation code.' }
         end
         format.json { render json: user.errors, status: :unprocessable_entity }
       end
