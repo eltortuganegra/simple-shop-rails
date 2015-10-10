@@ -9,10 +9,12 @@ class SessionsController < ApplicationController
       end
 
       if can_user_login? user
+        session.delete(:username_or_email)
         format.html { redirect_to user_path(user), notice: 'You are logged successfully.' }
         format.json { render :show, status: :created, location: user }
       else
-        format.html { redirect_to login_path }
+        session[:username_or_email] = user_params[:username_or_email]
+        format.html { redirect_to login_path, notice: 'You must confirm your account. Please check your email and look for the confirmation code.' }
         format.json { render json: user.errors, status: :unprocessable_entity }
       end
     end
@@ -36,6 +38,6 @@ class SessionsController < ApplicationController
     end
 
     def can_user_login? (user)
-      ! user.nil? and user.authenticate(user_params[:password])
+      ! user.nil? && user.confirmation_code.nil? && user.authenticate(user_params[:password])
     end
 end

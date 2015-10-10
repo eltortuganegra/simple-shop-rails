@@ -1,7 +1,7 @@
 <%= form_tag( login_path, method: 'post') do %>
-  <div class="field">
+  <div class="field">    
     <%= label_tag 'Username or password' %><br>
-    <%= text_field_tag 'session[username_or_email]' %>
+    <%= text_field_tag 'session[username_or_email]', username_or_email %>
   </div>
   <div class="field">
     <%= label_tag :password %><br>

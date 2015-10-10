@@ -111,6 +111,10 @@ class UsersController < ApplicationController
   # GET /login
   def login
     @user = User.new
+    @username_or_email = (session.has_key? (:username_or_email)) ?
+      session[:username_or_email] :
+      ''
+    session.delete(:username_or_email)
   end
 
   private

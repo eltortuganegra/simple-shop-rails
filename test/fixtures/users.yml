@@ -4,24 +4,29 @@ one:
   username: one
   email: one@mysite.com
   password_digest: <%= BCrypt::Password.create('secret') %>
+  confirmation_code:
 
 Guybrush_Threepwood:
   username: guybrush
   email: guybrush.threepwood@themonkeyisland.com
   password_digest: <%= BCrypt::Password.create('secret') %>
+  confirmation_code:
 
 LeChuck:
   username: lechuck
   email: lechuck@themonkeyisland.com
   password_digest: <%= BCrypt::Password.create('secret') %>
+  confirmation_code:
 
 Elaine_Marley:
   username: elaine_marley
   email: elaine.marley@themonkeyisland.com
   password_digest: <%= BCrypt::Password.create('secret') %>
+  confirmation_code:
 
 UserPendingConfirm:
   username: peding_confirm
   email: pending_confirm@themonkeyisland.com
   password_digest: <%= BCrypt::Password.create('secret') %>
   confirmation_code: valid_confirmation_code
+  
