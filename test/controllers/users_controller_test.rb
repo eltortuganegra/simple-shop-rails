@@ -1,13 +1,19 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
+  USERNAME_VALID_FORMAT_NOT_REGISTERED = USERNAME_VALID_FORMAT_NOT_REGISTERED
+  EMAIL_VALID_FORMAT_NOT_REGISTERED = 'thisemailsisnotregistered@themonkeyisland.com'
+  PASSWORD_VALID_FORMAT_STANDARD_FOR_ALL_USERS = 'secret'
+  PASSWORD_VALID_FORMAT_STANDARD_FOR_UPDATE = 'new_password'
+
+
   setup do
     @user = users(:one)
     @new_user = User.new(
-      username: 'new_user',
-      email: 'thisemailsisnotregistered@themonkeyisland.com',
-      password: 'secret',
-      password_confirmation: 'secret'
+      username: USERNAME_VALID_FORMAT_NOT_REGISTERED,
+      email: EMAIL_VALID_FORMAT_NOT_REGISTERED,
+      password: PASSWORD_VALID_FORMAT_STANDARD_FOR_ALL_USERS,
+      password_confirmation: PASSWORD_VALID_FORMAT_STANDARD_FOR_ALL_USERS
     )
   end
 
@@ -24,7 +30,12 @@ class UsersControllerTest < ActionController::TestCase
 
   test "should create user" do
     assert_difference('User.count') do
-      post :create, user: { email: @new_user.email, password: 'secret', password_confirmation: 'secret', username: @new_user.username }
+      post :create,
+        user: { email: @new_user.email,
+          password: PASSWORD_VALID_FORMAT_STANDARD_FOR_ALL_USERS,
+          password_confirmation: PASSWORD_VALID_FORMAT_STANDARD_FOR_ALL_USERS,
+          username: @new_user.username
+        }
 
     end
 
@@ -42,7 +53,14 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should update user" do
-    patch :update, id: @user, user: { email: @user.email,  password: 'secret2', password_confirmation: 'secret2', username: @user.username }
+    patch :update,
+      id: @user,
+      user: {
+        email: @user.email,
+        password: PASSWORD_VALID_FORMAT_STANDARD_FOR_UPDATE,
+        password_confirmation: PASSWORD_VALID_FORMAT_STANDARD_FOR_UPDATE,
+        username: @user.username
+      }
     assert_redirected_to user_path(assigns(:user))
   end
 
@@ -55,7 +73,14 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "Not should update an user if username and/or email are changed" do
-    patch :update, id: @user, user: { email: @new_user.email, password: 'secret2', password_confirmation: 'secret2', username: @new_user.username }
+    patch :update,
+      id: @user,
+      user: {
+        email: @new_user.email,
+        password: PASSWORD_VALID_FORMAT_STANDARD_FOR_UPDATE,
+        password_confirmation: PASSWORD_VALID_FORMAT_STANDARD_FOR_UPDATE,
+        username: @new_user.username
+      }
     assert_response :success
     assert_select '#error_explanation ul li', 2, 'Must have two errors: user and email.'
   end
