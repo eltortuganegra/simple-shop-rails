@@ -111,10 +111,14 @@ class UsersController < ApplicationController
   # GET /login
   def login
     @user = User.new
-    @username_or_email = (session.has_key? (:username_or_email)) ?
-      session[:username_or_email] :
-      ''
-    session.delete(:username_or_email)
+    if is_user_loggin?
+      redirect_to user_path session[:user_id]
+    else
+      @username_or_email = (session.has_key? (:username_or_email)) ?
+        session[:username_or_email] :
+        ''
+      session.delete(:username_or_email)
+    end
   end
 
   private
@@ -136,6 +140,8 @@ class UsersController < ApplicationController
       @user.email != user_params[:email]
     end
 
-
+    def is_user_loggin?
+      session.has_key? :user_id
+    end
 
 end

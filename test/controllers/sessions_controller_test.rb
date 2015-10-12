@@ -18,9 +18,9 @@ class SessionsControllerTest < ActionController::TestCase
     unconfirmed_user = users(:UserPendingConfirm)
     post :create, session: {username_or_email: unconfirmed_user.email, password: 'secret'}
     assert_redirected_to login_path
-    assert_equal 'You must <a href="' + confirm_account_path + '">confirm your account</a>. Please check your email and look for the confirmation code.',
+    assert_equal 'You must <a href="' + confirm_account_path + '">confirm the account</a>. Please check your email and look for the confirmation code.',
       flash[:notice],
-      'Flash not found: You must <a href="' + confirm_account_path + '">confirm your account</a>. Please check your email and look for the confirmation code.'
+      'Flash not found: You must <a href="' + confirm_account_path + '">confirm the account</a>. Please check your email and look for the confirmation code.'
   end
 
   test "not should login if an user is confirmed but password is not valid" do
@@ -54,6 +54,18 @@ class SessionsControllerTest < ActionController::TestCase
     assert_equal 'The username and password that you entered did not match our records. Please double-check and try again.',
       flash[:notice],
       'Flash not found: The username and password that you entered did not match our records. Please double-check and try again.'
+  end
+
+  test "should redirect to user's page is user is logged and try to do a login action" do
+    lechuck = users(:LeChuck)
+    session[:user_id] = lechuck.id
+    post  :create,
+      session: {
+        username_or_email: lechuck.email,
+        password: UsersControllerTest::PASSWORD_VALID_FORMAT_WRONG
+      }
+    #assert_redirected_to user_path(lechuck), 'A logged user must be redirected to the own user\'s page.'
+    assert_redirected_to user_path(lechuck)
   end
 
   test "should get destroy" do
