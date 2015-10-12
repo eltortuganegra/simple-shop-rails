@@ -68,9 +68,18 @@ class SessionsControllerTest < ActionController::TestCase
     assert_redirected_to user_path(lechuck)
   end
 
-  test "should get destroy" do
+  test "should logout an logged user" do
+    lechuck = users(:LeChuck)
+    session[:user_id] = lechuck.id
     get :destroy
-    assert_response :success
+    assert_equal false, session.has_key?(:user_id), 'User is not logout yet'
+  end
+
+  test "should redirect an to the root path when user does a logout action" do
+    lechuck = users(:LeChuck)
+    session[:user_id] = lechuck.id
+    get :destroy
+    assert_redirected_to root_path, 'User is not redirected to root path'
   end
 
 end
