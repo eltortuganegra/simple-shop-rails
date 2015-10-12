@@ -30,6 +30,8 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    reset_session
+    redirect_to root_path
   end
 
   private
@@ -50,12 +52,11 @@ class SessionsController < ApplicationController
       ! user.nil? && user.confirmation_code.nil? && user.authenticate(user_params[:password])
     end
 
-    def is_user_loggin?      
+    def is_user_loggin?
       session.has_key? :user_id
     end
 
     def set_user_id_to_session (user_id)
       session[:user_id] = user_id
-    end
-
+    end  
 end
