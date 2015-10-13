@@ -21,12 +21,10 @@
           if session.has_key?(:user_id) && session[:user_id] == user.id
             concat link_to'Edit', edit_user_path(user)
           end %>
-        </td>        
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
-<%= link_to 'New User', new_user_path %>
