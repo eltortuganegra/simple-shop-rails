@@ -21,8 +21,7 @@
           if session.has_key?(:user_id) && session[:user_id] == user.id
             concat link_to'Edit', edit_user_path(user)
           end %>
-        </td>
-        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </td>        
       </tr>
     <% end %>
   </tbody>
