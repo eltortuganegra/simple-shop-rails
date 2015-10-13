@@ -51,6 +51,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should update user" do
+    session['user_id'] = @user.id
     patch :update,
       id: @user,
       user: {
@@ -71,6 +72,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "Not should update an user if username and/or email are changed" do
+    session['user_id'] = @user.id
     patch :update,
       id: @user,
       user: {
@@ -87,6 +89,21 @@ class UsersControllerTest < ActionController::TestCase
     pending_user = users(:UserPendingConfirm)
     post :validate_confirm_account, user: { confirmation_code: pending_user.confirmation_code }
     assert_redirected_to login_path
+  end
+
+  test "should not update another account which the user is not the owner" do
+    lechuck = users(:LeChuck)
+    session['user_id'] = lechuck.id
+    guybrush = users(:Guybrush_Threepwood)
+    post :update,
+      id: guybrush.id,
+      user: {
+        username: guybrush.username,
+        email: guybrush.email,
+        password: PASSWORD_VALID_FORMAT_STANDARD_FOR_UPDATE,
+        password_confirmation: PASSWORD_VALID_FORMAT_STANDARD_FOR_UPDATE
+      }
+    assert_response 403
   end
 
 end

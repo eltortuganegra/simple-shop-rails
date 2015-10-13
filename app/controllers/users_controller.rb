@@ -43,17 +43,22 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
-      if ! username_modified? && ! email_modified? && @user.update(user_params)
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
-        format.json { render :show, status: :ok, location: @user }
+      if session.has_key?(:user_id) && session[:user_id] == @user.id
+        if ! username_modified? && ! email_modified? && @user.update(user_params)
+          format.html { redirect_to @user, notice: 'User was successfully updated.' }
+          format.json { render :show, status: :ok, location: @user }
+        else
+          if username_modified?
+            @user.errors.add(:username, 'can not be changed')
+          end
+          if email_modified?
+            @user.errors.add(:email, 'can not be changed')
+          end
+          format.html { render :edit }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
       else
-        if username_modified?
-          @user.errors.add(:username, 'can not be changed')
-        end
-        if email_modified?
-          @user.errors.add(:email, 'can not be changed')
-        end
-        format.html { render :edit }
+        format.html { render(:file => File.join(Rails.root, 'public/403.html'), :status => 403, :layout => false) }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
