@@ -7,19 +7,19 @@ class SessionsControllerTest < ActionController::TestCase
 
   test "should login a confirmed user with username and password" do
     lechuck = users(:LeChuck)
-    post :create, session: {username_or_email: lechuck.username, password: 'secret'}
+    post :create, session: {username_or_email: lechuck.username, password: PASSWORD_VALID_FORMAT_STANDARD_FOR_ALL_USERS}
     assert_redirected_to user_path lechuck
   end
 
   test "should login a confirmed user with email and password" do
     lechuck = users(:LeChuck)
-    post :create, session: {username_or_email: lechuck.email, password: 'secret'}
+    post :create, session: {username_or_email: lechuck.email, password: PASSWORD_VALID_FORMAT_STANDARD_FOR_ALL_USERS}
     assert_redirected_to user_path lechuck
   end
 
   test "not should login an unconfirmed user with email and password" do
     unconfirmed_user = users(:UserPendingConfirm)
-    post :create, session: {username_or_email: unconfirmed_user.email, password: 'secret'}
+    post :create, session: {username_or_email: unconfirmed_user.email, password: PASSWORD_VALID_FORMAT_STANDARD_FOR_ALL_USERS}
     assert_redirected_to login_path
     assert_equal 'You must <a href="' + confirm_account_path + '">confirm the account</a>. Please check your email and look for the confirmation code.',
       flash[:notice],
@@ -28,7 +28,7 @@ class SessionsControllerTest < ActionController::TestCase
 
   test "not should login if an user is confirmed but password is not valid" do
     lechuck = users(:LeChuck)
-    post :create, session: {username_or_email: lechuck.email, password: 'this-password-is-not-for-lechuck'}
+    post :create, session: {username_or_email: lechuck.email, password: PASSWORD_VALID_FORMAT_WRONG}
     assert_redirected_to login_path
     assert_equal 'The username and password that you entered did not match our records. Please double-check and try again.',
       flash[:notice],
@@ -67,8 +67,7 @@ class SessionsControllerTest < ActionController::TestCase
         username_or_email: lechuck.email,
         password: PASSWORD_VALID_FORMAT_WRONG
       }
-    #assert_redirected_to user_path(lechuck), 'A logged user must be redirected to the own user\'s page.'
-    assert_redirected_to user_path(lechuck)
+    assert_redirected_to user_path(lechuck), 'A logged user must be redirected to the own user\'s page.'    
   end
 
   test "should logout an logged user" do
