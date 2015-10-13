@@ -64,14 +64,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to user_path(assigns(:user))
   end
 
-  test "should destroy user" do
-    assert_difference('User.count', -1) do
-      delete :destroy, id: @user
-    end
-
-    assert_redirected_to users_path
-  end
-
   test "Not should update an user if username and/or email are changed" do
     session['user_id'] = @user.id
     patch :update,
@@ -112,6 +104,25 @@ class UsersControllerTest < ActionController::TestCase
     session['user_id'] = lechuck.id
     guybrush = users(:Guybrush_Threepwood)
     get :edit, id: guybrush
+
+    assert_response 403
+  end
+
+  test "not logged user should not destroy its account" do
+    assert_no_difference 'User.count' do
+      delete :destroy, id: @user
+    end
+
+    assert_response 403
+  end
+
+  test "logged user should not destroy its account" do
+    lechuck = users(:LeChuck)
+    session['user_id'] = lechuck.id
+
+    assert_no_difference 'User.count' do
+      delete :destroy, id: lechuck
+    end
 
     assert_response 403
   end
