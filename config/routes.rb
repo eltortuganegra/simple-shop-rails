@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :products
   # Root page
-  root 'site#index'
+  root 'products#index'
 
   # Static pages
   get 'about' => 'site#about'
