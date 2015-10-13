@@ -46,6 +46,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should get edit" do
+    session['user_id'] = @user.id
     get :edit, id: @user
     assert_response :success
   end
@@ -103,6 +104,15 @@ class UsersControllerTest < ActionController::TestCase
         password: PASSWORD_VALID_FORMAT_STANDARD_FOR_UPDATE,
         password_confirmation: PASSWORD_VALID_FORMAT_STANDARD_FOR_UPDATE
       }
+    assert_response 403
+  end
+
+  test "should not get the update page of another user" do
+    lechuck = users(:LeChuck)
+    session['user_id'] = lechuck.id
+    guybrush = users(:Guybrush_Threepwood)
+    get :edit, id: guybrush
+
     assert_response 403
   end
 
