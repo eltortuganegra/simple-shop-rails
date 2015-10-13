@@ -1,7 +1,10 @@
 require 'test_helper'
-require File.dirname(__FILE__) + '/users_controller_test'
+require 'users_helper'
+
 
 class SessionsControllerTest < ActionController::TestCase
+  include UsersHelper
+
   test "should login a confirmed user with username and password" do
     lechuck = users(:LeChuck)
     post :create, session: {username_or_email: lechuck.username, password: 'secret'}
@@ -35,8 +38,8 @@ class SessionsControllerTest < ActionController::TestCase
   test "not should login if username is not registered" do
     post :create,
       session: {
-        username_or_email: UsersControllerTest::USERNAME_VALID_FORMAT_NOT_REGISTERED,
-        password: UsersControllerTest::PASSWORD_VALID_FORMAT_STANDARD_FOR_ALL_USERS
+        username_or_email: USERNAME_VALID_FORMAT_NOT_REGISTERED,
+        password: PASSWORD_VALID_FORMAT_STANDARD_FOR_ALL_USERS
       }
     assert_redirected_to login_path
     assert_equal 'The username and password that you entered did not match our records. Please double-check and try again.',
@@ -47,8 +50,8 @@ class SessionsControllerTest < ActionController::TestCase
   test "not should login if email is not registered" do
     post :create,
       session: {
-        username_or_email: UsersControllerTest::EMAIL_VALID_FORMAT_NOT_REGISTERED,
-        password: UsersControllerTest::PASSWORD_VALID_FORMAT_STANDARD_FOR_ALL_USERS
+        username_or_email: EMAIL_VALID_FORMAT_NOT_REGISTERED,
+        password: PASSWORD_VALID_FORMAT_STANDARD_FOR_ALL_USERS
       }
     assert_redirected_to login_path
     assert_equal 'The username and password that you entered did not match our records. Please double-check and try again.',
@@ -62,7 +65,7 @@ class SessionsControllerTest < ActionController::TestCase
     post  :create,
       session: {
         username_or_email: lechuck.email,
-        password: UsersControllerTest::PASSWORD_VALID_FORMAT_WRONG
+        password: PASSWORD_VALID_FORMAT_WRONG
       }
     #assert_redirected_to user_path(lechuck), 'A logged user must be redirected to the own user\'s page.'
     assert_redirected_to user_path(lechuck)
