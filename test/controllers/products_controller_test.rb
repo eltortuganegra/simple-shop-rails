@@ -43,7 +43,18 @@ class ProductsControllerTest < ActionController::TestCase
     assert_no_difference 'Product.count' do
       delete :destroy, id: @product
     end
-
     assert_response 404
   end
+
+  test "should redirec to the product path when a product is disabled" do
+    patch :disable, id: @product
+    assert_redirected_to product_path @product
+  end
+
+  test "should disable the product" do
+    patch :disable, id: @product
+    product = Product.find(@product.id)    
+    assert ! product.disabled_at.nil?
+  end
+
 end

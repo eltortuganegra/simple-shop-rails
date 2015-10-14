@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [:show, :edit, :update, :destroy, :disable]
 
   # GET /products
   # GET /products.json
@@ -60,6 +60,20 @@ class ProductsController < ApplicationController
     end
   end
 
+  # PATCH /products/
+  def disable
+    @product.disabled_at = DateTime.now
+    respond_to do |format|
+      if @product.save
+        format.html { redirect_to @product, notice: 'Product was successfully disable.' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to @product, notice: 'Product was not successfully disable.' }
+        format.json { head :no_content }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_product
@@ -68,6 +82,6 @@ class ProductsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def product_params
-      params.require(:product).permit(:title, :description, :price)
+      params.require(:product).permit(:title, :description, :price, :id)
     end
 end

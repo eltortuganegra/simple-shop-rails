@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :products
+
   # Root page
   root 'site#index'
 
@@ -23,6 +23,11 @@ Rails.application.routes.draw do
 
   # Users
   resources :users
+
+  #products
+  patch 'products/:id/disable' => 'products#disable', as: :disable_product
+  resources :products
+
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
