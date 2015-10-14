@@ -23,6 +23,18 @@
     <%= f.label :price %><br>
     <%= f.text_field :price %>
   </div>
+  <div>
+    <%= f.label :image_url %><br>
+    <%
+    if @product.image_url.nil?
+      concat image_tag 'products/default_image_url.png'
+    else
+      concat image_tag @product.image_url
+    end
+    %>
+    <br>
+    <%= f.text_field :image_url %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

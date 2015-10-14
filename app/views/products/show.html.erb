@@ -1,4 +1,11 @@
 <p id="notice"><%= notice %></p>
+<%
+  if @product.image_url.nil?
+    concat image_tag 'products/default_image_url.png'
+  else
+    concat image_tag @product.image_url
+  end
+%>
 
 <p>
   <strong>Title:</strong>
