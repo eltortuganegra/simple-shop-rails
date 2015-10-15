@@ -4,7 +4,6 @@ require 'users_helper'
 class UsersControllerTest < ActionController::TestCase
   include UsersHelper
 
-
   setup do
     @user = users(:one)
     @new_user = User.new(
@@ -125,6 +124,21 @@ class UsersControllerTest < ActionController::TestCase
     end
 
     assert_response 403
+  end
+
+  test "logged user should update the avatar of an user" do
+    session['user_id'] = @user.id
+    patch :update,
+      id: @user,
+      user: {
+        email: @user.email,
+        username: @user.username,
+        password: PASSWORD_VALID_FORMAT_STANDARD_FOR_UPDATE,
+        password_confirmation: PASSWORD_VALID_FORMAT_STANDARD_FOR_UPDATE,
+        uploaded_picture: fixture_file_upload('files/default_avatar.png', 'image/png', :binary)
+      }    
+    user = User.find @user.id
+    assert ! user.avatar_path.nil?, 'The user\'s avatar can not be updated.'
   end
 
 end

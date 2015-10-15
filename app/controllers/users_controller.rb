@@ -47,6 +47,12 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if session.has_key?(:user_id) && session[:user_id] == @user.id
+        if uploaded_picture?
+          uploaded_picture = params.require(:user)[:uploaded_picture]
+          move_uploaded_pictured_into_default_path uploaded_picture
+          @user.avatar_path = '/images/users/avatars/' + uploaded_picture.original_filename
+        end
+
         if ! username_modified? && ! email_modified? && @user.update(user_params)
           format.html { redirect_to @user, notice: 'User was successfully updated.' }
           format.json { render :show, status: :ok, location: @user }
@@ -149,6 +155,19 @@ class UsersController < ApplicationController
 
     def is_user_loggin?
       session.has_key? :user_id
+    end
+
+    def uploaded_picture?
+      params.required(:user).has_key?(:uploaded_picture)
+    end
+
+    def move_uploaded_pictured_into_default_path uploaded_picture
+      File.open(
+        Rails.root.join('public', 'images', 'users', 'avatars', uploaded_picture.original_filename),
+        'wb'
+      ) do |file|
+        file.write(uploaded_picture.read)
+      end
     end
 
 end
