@@ -1,5 +1,12 @@
 <p id="notice"><%= notice %></p>
 
+<%
+  if @user.avatar_path.nil?
+    concat image_tag 'users/default_avatar.png'
+  else
+    concat image_tag @user.avatar_path
+  end
+%>
 <p>
   <strong>Username:</strong>
   <%= @user.username %>
