@@ -71,7 +71,7 @@ class ProductsControllerTest < ActionController::TestCase
       post :create, product: {
         description: @product.description,
         price: @product.price,
-        title: @product.title,        
+        title: @product.title,
       }
     assert_redirected_to product_path(assigns :product), 'Redirection is wrong'
   end
@@ -97,5 +97,17 @@ class ProductsControllerTest < ActionController::TestCase
     assert_redirected_to product_path(assigns :product), 'Redirection is wrong'
   end
 
+  test "should update a product with an image" do
+    patch :update,
+      id: @product,
+      product: {
+        description: @product.description,
+        price: @product.price,
+        title: @product.title,
+        uploaded_picture: fixture_file_upload('files/default_product.png', 'image/png', :binary)
+      }
+    product = Product.find @product.id
+    assert ! product.image_url.nil?, 'Product without an image has not been updated with an image.'
+  end
 
 end
