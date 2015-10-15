@@ -17,4 +17,5 @@
 /tmp
 
 # Ignore all images for products
+/public/images/products/*
 !/public/images/products/.keep
