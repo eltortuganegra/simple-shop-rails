@@ -19,3 +19,7 @@
 # Ignore all images for products
 /public/images/products/*
 !/public/images/products/.keep
+
+# Ignore all images for the uploaded avatars
+/public/images/users/avatars/*
+!/public/images/users/avatars/.keep
