@@ -53,8 +53,49 @@ class ProductsControllerTest < ActionController::TestCase
 
   test "should disable the product" do
     patch :disable, id: @product
-    product = Product.find(@product.id)    
+    product = Product.find(@product.id)
     assert ! product.disabled_at.nil?
   end
+
+  test "should create a product without an image" do
+    assert_difference('Product.count', 1, 'Product without image not created') do
+      post :create, product: {
+        description: @product.description,
+        price: @product.price,
+        title: @product.title,
+      }
+    end
+  end
+
+  test "should redirect to product page when a product is created without an image" do
+      post :create, product: {
+        description: @product.description,
+        price: @product.price,
+        title: @product.title,        
+      }
+    assert_redirected_to product_path(assigns :product), 'Redirection is wrong'
+  end
+
+  test "should create a product with an image" do
+    assert_difference('Product.count', 1, 'Product with image not created') do
+      post :create, product: {
+        description: @product.description,
+        price: @product.price,
+        title: @product.title,
+        uploaded_picture: fixture_file_upload('files/default_product.png', 'image/png', :binary)
+      }
+    end
+  end
+
+  test "should redirect to product page when a product is created with an image" do
+      post :create, product: {
+        description: @product.description,
+        price: @product.price,
+        title: @product.title,
+        uploaded_picture: fixture_file_upload('files/default_product.png', 'image/png', :binary)
+      }
+    assert_redirected_to product_path(assigns :product), 'Redirection is wrong'
+  end
+
 
 end

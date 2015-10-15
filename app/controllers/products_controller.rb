@@ -25,6 +25,12 @@ class ProductsController < ApplicationController
   # POST /products.json
   def create
     @product = Product.new(product_params)
+    if uploaded_picture?
+      uploaded_picture = params.require(:product)[:uploaded_picture]
+      move_uploaded_pictured_into_default_path uploaded_picture
+      @product.image_url = '/images/products/' + uploaded_picture.original_filename
+    end
+
 
     respond_to do |format|
       if @product.save
@@ -84,4 +90,18 @@ class ProductsController < ApplicationController
     def product_params
       params.require(:product).permit(:title, :description, :price, :id)
     end
+
+    def uploaded_picture?
+      params.required(:product).has_key?(:uploaded_picture)
+    end
+
+    def move_uploaded_pictured_into_default_path uploaded_picture
+      File.open(
+        Rails.root.join('public', 'images', 'products', uploaded_picture.original_filename),
+        'wb'
+      ) do |file|
+        file.write(uploaded_picture.read)
+      end
+    end
+
 end
