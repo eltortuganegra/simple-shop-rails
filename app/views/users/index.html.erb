@@ -14,6 +14,15 @@
   <tbody>
     <% @users.each do |user| %>
       <tr>
+        <td>
+        <%
+          if user.avatar_path.nil?
+            concat image_tag 'users/default_avatar.png'
+          else
+            concat image_tag user.avatar_path
+          end
+        %>
+        </td>
         <td><%= user.username %></td>
         <td><%= user.email %></td>
         <td><%= link_to 'Show', user %></td>
