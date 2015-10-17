@@ -20,9 +20,20 @@ class User < ActiveRecord::Base
     on: :create
 
   validates :password,
+    presence: true,
     length: {
       minimum: PASSWORD_MINIMUM_LENGHT
-    }
+    },
+    on: :create
+
+    validates :password,
+      presence: true,
+      length: {
+        minimum: PASSWORD_MINIMUM_LENGHT
+      },
+      allow_blank: true,
+      on: :update
+
 
   validates :email,
      format: {

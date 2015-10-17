@@ -136,9 +136,24 @@ class UsersControllerTest < ActionController::TestCase
         password: PASSWORD_VALID_FORMAT_STANDARD_FOR_UPDATE,
         password_confirmation: PASSWORD_VALID_FORMAT_STANDARD_FOR_UPDATE,
         uploaded_picture: fixture_file_upload('files/default_avatar.png', 'image/png', :binary)
-      }    
+      }
     user = User.find @user.id
     assert ! user.avatar_path.nil?, 'The user\'s avatar can not be updated.'
+  end
+
+  test "should not show error when update without password" do
+    session['user_id'] = @user.id
+    patch :update,
+      id: @user,
+      user: {
+        email: @user.email,
+        username: @user.username,
+        password: '',
+        password_confirmation: '',
+        uploaded_picture: fixture_file_upload('files/default_avatar.png', 'image/png', :binary)
+      }
+    
+    assert_select '#error_explanation', 0, 'The div error has been showed.'
   end
 
 end
