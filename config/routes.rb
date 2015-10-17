@@ -26,6 +26,7 @@ Rails.application.routes.draw do
 
   #products
   patch 'products/:id/disable' => 'products#disable', as: :disable_product
+  patch 'products/:id/enable' => 'products#enable', as: :enable_product
   resources :products
 
 

@@ -30,7 +30,11 @@
         <td><%= product.price %></td>
         <td><%= link_to 'Show', product %></td>
         <td><%= link_to 'Edit', edit_product_path(product) %></td>
-        <td><%= link_to 'Disable', disable_product_path(product), method: :patch, data: { confirm: 'Are you sure?' } %></td>
+        <% if product.disabled_at.nil? %>
+          <td><%= link_to 'Disable', disable_product_path(product), method: :patch, data: { confirm: 'Are you sure?' } %></td>
+        <% else %>
+          <td><%= link_to 'Enable', enable_product_path(product), method: :patch, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
