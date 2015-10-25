@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy, :disable]
+  before_action :set_product, only: [:show, :edit, :update, :destroy, :disable, :enable]
 
   # GET /products
   # GET /products.json
@@ -80,6 +80,20 @@ class ProductsController < ApplicationController
         format.json { head :no_content }
       else
         format.html { redirect_to @product, notice: 'Product was not successfully disable.' }
+        format.json { head :no_content }
+      end
+    end
+  end
+
+  # PATCH /products/
+  def enable
+    @product.disabled_at = nil
+    respond_to do |format|
+      if @product.save
+        format.html { redirect_to @product, notice: 'Product was successfully enable.' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to @product, notice: 'Product was not successfully enable.' }
         format.json { head :no_content }
       end
     end

@@ -110,4 +110,15 @@ class ProductsControllerTest < ActionController::TestCase
     assert ! product.image_url.nil?, 'Product without an image has not been updated with an image.'
   end
 
+  test "should update to a enable a disabled product" do
+    disabledProduct = products(:disabledProduct)
+    patch :enable,
+      id: disabledProduct,
+      product: {
+        disabled_at: ''
+      }
+    product = Product.find disabledProduct.id
+    assert product.disabled_at.nil?, 'Disabled product has not can been updated to enable.'
+  end
+
 end

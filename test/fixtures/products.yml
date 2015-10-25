@@ -9,3 +9,9 @@ two:
   title: MyString
   description: MyText
   price: 9.99
+
+disabledProduct:
+  title: I'm a disabled product
+  description: disable product description
+  price: 9.99
+  disabled_at: 2015-10-17 11:41:32 UTC
