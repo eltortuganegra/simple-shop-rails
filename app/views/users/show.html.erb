@@ -17,6 +17,13 @@
   <%= @user.email %>
 </p>
 
+<p>
+  <strong>Is administrator:</strong>
+  <%
+      concat check_box_tag :is_administrator, '1', @user.is_administrator       
+  %>
+</p>
+
 <%
   if session.has_key?(:user_id) && session[:user_id] == @user.id
     concat link_to('Edit', edit_user_path(@user)) + ' | '
