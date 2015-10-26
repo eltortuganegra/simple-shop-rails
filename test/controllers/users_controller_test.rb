@@ -152,8 +152,24 @@ class UsersControllerTest < ActionController::TestCase
         password_confirmation: '',
         uploaded_picture: fixture_file_upload('files/default_avatar.png', 'image/png', :binary)
       }
-    
+
     assert_select '#error_explanation', 0, 'The div error has been showed.'
+  end
+
+  test "should not update is_administrator if user is not an administrator" do
+    session['user_id'] = @user.id
+    patch :update,
+      id: @user,
+      user: {
+        email: @user.email,
+        username: @user.username,
+        password: PASSWORD_VALID_FORMAT_STANDARD_FOR_UPDATE,
+        password_confirmation: PASSWORD_VALID_FORMAT_STANDARD_FOR_UPDATE,
+        is_administrator: true
+      }
+
+    user = User.find @user.id
+    assert ! user.is_administrator, 'An user without an administrator profile can no update the is_administrator field.'
   end
 
 end

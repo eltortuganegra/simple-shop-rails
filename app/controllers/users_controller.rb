@@ -53,7 +53,7 @@ class UsersController < ApplicationController
           @user.avatar_path = '/images/users/avatars/' + uploaded_picture.original_filename
         end
 
-        if ! username_modified? && ! email_modified? && @user.update(user_params)
+        if ! username_modified? && ! email_modified? && can_the_is_administrator_field_to_be_update? && @user.update(user_params)
           format.html { redirect_to @user, notice: 'User was successfully updated.' }
           format.json { render :show, status: :ok, location: @user }
         else
@@ -142,7 +142,7 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:username, :email, :password, :password_confirmation)
+      params.require(:user).permit(:username, :email, :password, :password_confirmation, :is_administrator)
     end
 
     def username_modified?
@@ -151,6 +151,14 @@ class UsersController < ApplicationController
 
     def email_modified?
       @user.email != user_params[:email]
+    end
+
+    def is_administrator_modified?
+      @user.is_administrator != user_params[:is_administrator]
+    end
+
+    def can_the_is_administrator_field_to_be_update?
+      ! is_administrator_modified? || is_administrator_modified? && @user.is_administrator
     end
 
     def is_user_loggin?
