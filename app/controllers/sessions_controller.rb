@@ -14,6 +14,7 @@ class SessionsController < ApplicationController
         if can_user_login? user
           session.delete(:username_or_email)
           set_user_id_to_session user.id
+          set_user_is_adminsitrator_to_session user.is_administrator
           format.html { redirect_to user_path(user), notice: 'You are logged successfully.' }
           format.json { render :show, status: :created, location: user }
         else
@@ -58,5 +59,9 @@ class SessionsController < ApplicationController
 
     def set_user_id_to_session (user_id)
       session[:user_id] = user_id
-    end  
+    end
+
+    def set_user_is_adminsitrator_to_session (is_administrator)
+      session[:is_administrator] = is_administrator
+    end
 end

@@ -172,4 +172,10 @@ class UsersControllerTest < ActionController::TestCase
     assert ! user.is_administrator, 'An user without an administrator profile can no update the is_administrator field.'
   end
 
+  test "An anonymous user should not see the is_administrator field" do
+    get :show, id: @user
+
+    assert_select '#is_administrator', 0, 'Administrator field found.'
+  end
+
 end

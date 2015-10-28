@@ -17,12 +17,14 @@
   <%= @user.email %>
 </p>
 
+<% if session.has_key?(:user_id) && session[:is_administrator] %>
 <p>
   <strong>Is administrator:</strong>
   <%
-      concat check_box_tag :is_administrator, '1', @user.is_administrator       
+      concat check_box_tag :is_administrator, '1', @user.is_administrator
   %>
 </p>
+<% end %>
 
 <%
   if session.has_key?(:user_id) && session[:user_id] == @user.id
