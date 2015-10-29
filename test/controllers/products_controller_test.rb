@@ -17,8 +17,15 @@ class ProductsControllerTest < ActionController::TestCase
   end
 
   test "should create product" do
+    lechuck = users(:LeChuck)
+    session[:user_id] = lechuck.id
+    session[:is_administrator] = lechuck.is_administrator
     assert_difference('Product.count') do
-      post :create, product: { description: @product.description, price: @product.price, title: @product.title }
+      post :create, product: {
+        description: @product.description,
+        price: @product.price,
+        title: @product.title
+      }
     end
 
     assert_redirected_to product_path(assigns(:product))
@@ -58,6 +65,9 @@ class ProductsControllerTest < ActionController::TestCase
   end
 
   test "should create a product without an image" do
+    lechuck = users(:LeChuck)
+    session[:user_id] = lechuck.id
+    session[:is_administrator] = lechuck.is_administrator
     assert_difference('Product.count', 1, 'Product without image not created') do
       post :create, product: {
         description: @product.description,
@@ -68,6 +78,9 @@ class ProductsControllerTest < ActionController::TestCase
   end
 
   test "should redirect to product page when a product is created without an image" do
+    lechuck = users(:LeChuck)
+    session[:user_id] = lechuck.id
+    session[:is_administrator] = lechuck.is_administrator
       post :create, product: {
         description: @product.description,
         price: @product.price,
@@ -77,6 +90,9 @@ class ProductsControllerTest < ActionController::TestCase
   end
 
   test "should create a product with an image" do
+    lechuck = users(:LeChuck)
+    session[:user_id] = lechuck.id
+    session[:is_administrator] = lechuck.is_administrator
     assert_difference('Product.count', 1, 'Product with image not created') do
       post :create, product: {
         description: @product.description,
@@ -88,7 +104,10 @@ class ProductsControllerTest < ActionController::TestCase
   end
 
   test "should redirect to product page when a product is created with an image" do
-      post :create, product: {
+    lechuck = users(:LeChuck)
+    session[:user_id] = lechuck.id
+    session[:is_administrator] = lechuck.is_administrator
+    post :create, product: {
         description: @product.description,
         price: @product.price,
         title: @product.title,
@@ -119,6 +138,18 @@ class ProductsControllerTest < ActionController::TestCase
       }
     product = Product.find disabledProduct.id
     assert product.disabled_at.nil?, 'Disabled product has not can been updated to enable.'
+  end
+
+  test "anonymous user should not create a product" do
+    assert_no_difference('Product.count') do
+      post :create, product: {
+        description: @product.description,
+        price: @product.price,
+        title: @product.title
+      }
+    end
+
+    assert_redirected_to products_path
   end
 
 end

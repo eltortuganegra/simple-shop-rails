@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy, :disable, :enable]
+  before_action :check_administrator_privilege, only: [:create]
 
   # GET /products
   # GET /products.json
@@ -123,4 +124,9 @@ class ProductsController < ApplicationController
       end
     end
 
+    def check_administrator_privilege
+        if ! (session.has_key?(:user_id) && session.has_key?(:is_administrator) && session[:is_administrator])
+          redirect_to products_path, notice: 'You have not permissions for this operation'
+        end
+    end
 end

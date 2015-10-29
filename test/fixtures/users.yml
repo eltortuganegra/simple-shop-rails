@@ -19,7 +19,7 @@ LeChuck:
   email: lechuck@themonkeyisland.com
   password_digest: <%= BCrypt::Password.create('secret') %>
   confirmation_code:
-  is_administrator:
+  is_administrator: 1
 
 Elaine_Marley:
   username: elaine_marley
