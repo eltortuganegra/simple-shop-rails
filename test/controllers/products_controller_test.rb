@@ -42,6 +42,9 @@ class ProductsControllerTest < ActionController::TestCase
   end
 
   test "should update product" do
+    lechuck = users(:LeChuck)
+    session[:user_id] = lechuck.id
+    session[:is_administrator] = lechuck.is_administrator
     patch :update, id: @product, product: { description: @product.description, price: @product.price, title: @product.title }
     assert_redirected_to product_path(assigns(:product))
   end
@@ -117,6 +120,9 @@ class ProductsControllerTest < ActionController::TestCase
   end
 
   test "should update a product with an image" do
+    lechuck = users(:LeChuck)
+    session[:user_id] = lechuck.id
+    session[:is_administrator] = lechuck.is_administrator
     patch :update,
       id: @product,
       product: {
@@ -130,6 +136,9 @@ class ProductsControllerTest < ActionController::TestCase
   end
 
   test "should update to a enable a disabled product" do
+    lechuck = users(:LeChuck)
+    session[:user_id] = lechuck.id
+    session[:is_administrator] = lechuck.is_administrator
     disabledProduct = products(:disabledProduct)
     patch :enable,
       id: disabledProduct,
@@ -149,7 +158,24 @@ class ProductsControllerTest < ActionController::TestCase
       }
     end
 
-    assert_redirected_to products_path
+    assert_redirected_to products_path, 'User must be redirect to products path'
   end
+
+  test "Anonymous user should not update a product" do
+    post :update, id: @product,product: {
+      price: 999
+    }
+    product = Product.find @product.id
+    assert product.price != @product.price, 'Anonymous user should not update a product'
+    # assert_redirected_to products_path, 'User must be redirect to products path'
+  end
+
+  test "Anonymous user should be redirected to users path when update a product" do
+    post :update, id: @product,product: {
+      price: 999
+    }
+    assert_redirected_to products_path, 'User must be redirect to products path'
+  end
+
 
 end

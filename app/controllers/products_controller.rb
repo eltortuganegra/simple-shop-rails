@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy, :disable, :enable]
-  before_action :check_administrator_privilege, only: [:create]
+  before_action :check_administrator_privilege, only: [:create, :update]
 
   # GET /products
   # GET /products.json
