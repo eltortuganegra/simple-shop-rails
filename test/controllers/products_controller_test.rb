@@ -163,10 +163,10 @@ class ProductsControllerTest < ActionController::TestCase
 
   test "Anonymous user should not update a product" do
     post :update, id: @product,product: {
-      price: 999
+      price: @product.price + 1
     }
     product = Product.find @product.id
-    assert product.price != @product.price, 'Anonymous user should not update a product'
+    assert product.price == @product.price, 'Anonymous user should not update a product'
     # assert_redirected_to products_path, 'User must be redirect to products path'
   end
 
