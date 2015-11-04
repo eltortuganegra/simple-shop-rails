@@ -125,7 +125,7 @@ class ProductsController < ApplicationController
     end
 
     def check_administrator_privilege
-        if ! (session.has_key?(:user_id) && session.has_key?(:is_administrator) && session[:is_administrator])
+        if ! (is_user_loggin? && is_user_administrator?)
           redirect_to products_path, notice: 'You have not permissions for this operation'
         end
     end
