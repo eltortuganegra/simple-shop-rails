@@ -5,7 +5,7 @@ class SiteController < ApplicationController
   def about
   end
 
-  def terms
+  def terms_of_use
   end
 
   def privacy

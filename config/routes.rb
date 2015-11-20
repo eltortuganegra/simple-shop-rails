@@ -5,9 +5,9 @@ Rails.application.routes.draw do
 
   # Static pages
   get 'about' => 'site#about'
-  get 'terms' => 'site#terms'
-  get 'privacy' => 'site#privacy'
-  get 'cookies' => 'site#cookies_page'
+  get 'policies/terms_of_use' => 'site#terms_of_use'
+  get 'policies/privacy' => 'site#privacy'
+  get 'policies/cookies' => 'site#cookies_page'
   get 'contact' => 'site#contact'
 
   # Login and logout
