@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get 'policies/privacy' => 'site#privacy'
   get 'policies/cookies' => 'site#cookies_page'
   get 'contact' => 'site#contact'
+  get 'support/faq' => 'site#faq'
 
   # Login and logout
   get 'login' => 'users#login'
