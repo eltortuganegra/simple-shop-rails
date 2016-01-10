@@ -1,4 +1,4 @@
-class SiteController < ApplicationController
+class SiteController < ApplicationController  
   def index
   end
 
@@ -18,5 +18,8 @@ class SiteController < ApplicationController
   end
 
   def faq
+  end
+
+  def contact
   end
 end

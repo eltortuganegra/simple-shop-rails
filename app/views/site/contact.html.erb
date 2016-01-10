@@ -1,2 +1,12 @@
-<h1>Site#contact</h1>
-<p>Find me in app/views/site/contact.html.erb</p>
+<h1>Contact</h1>
+<%= form_tag '/support/contact', method: :post do %>
+  <p>Email:</p>
+  <p><input type="text" name="email"></p>
+  <p>Name:</p>
+  <p><input type="text" name="name"></p>
+  <p>Message:</p>
+  <p>
+    <textarea name="message"></textarea>
+  </p>
+  <input type="submit" name="submit" value="accept"/>
+<% end %>
