@@ -33,9 +33,7 @@ class UsersControllerTest < ActionController::TestCase
           password_confirmation: PASSWORD_VALID_FORMAT_STANDARD_FOR_ALL_USERS,
           username: @new_user.username
         }
-
     end
-
     assert_redirected_to confirm_account_path
   end
 
@@ -45,13 +43,13 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should get edit" do
-    session['user_id'] = @user.id
+    login @user
     get :edit, id: @user
     assert_response :success
   end
 
   test "should update user" do
-    session['user_id'] = @user.id
+    login @user
     patch :update,
       id: @user,
       user: {
@@ -64,7 +62,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "Not should update an user if username and/or email are changed" do
-    session['user_id'] = @user.id
+    login @user
     patch :update,
       id: @user,
       user: {
@@ -84,8 +82,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should not update another account which the user is not the owner" do
-    lechuck = users(:LeChuck)
-    session['user_id'] = lechuck.id
+    login users(:LeChuck)
     guybrush = users(:Guybrush_Threepwood)
     post :update,
       id: guybrush.id,
@@ -99,11 +96,9 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should not get the update page of another user" do
-    lechuck = users(:LeChuck)
-    session['user_id'] = lechuck.id
+    login users(:LeChuck)
     guybrush = users(:Guybrush_Threepwood)
     get :edit, id: guybrush
-
     assert_response 403
   end
 
@@ -111,30 +106,24 @@ class UsersControllerTest < ActionController::TestCase
     assert_no_difference 'User.count' do
       delete :destroy, id: @user
     end
-
     assert_response 403
   end
 
   test "logged user should not destroy its account" do
-    lechuck = users(:LeChuck)
-    session['user_id'] = lechuck.id
-
+    login users(:LeChuck)
     assert_no_difference 'User.count' do
-      delete :destroy, id: lechuck
+      delete :destroy, id: users(:LeChuck)
     end
-
     assert_response 403
   end
 
-  test "logged user should update the avatar of an user" do
-    session['user_id'] = @user.id
+  test "logged user should update the avatar of a user" do
+    login @user
     patch :update,
       id: @user,
       user: {
         email: @user.email,
         username: @user.username,
-        password: PASSWORD_VALID_FORMAT_STANDARD_FOR_UPDATE,
-        password_confirmation: PASSWORD_VALID_FORMAT_STANDARD_FOR_UPDATE,
         uploaded_picture: fixture_file_upload('files/default_avatar.png', 'image/png', :binary)
       }
     user = User.find @user.id
@@ -142,7 +131,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   test "should not show error when update without password" do
-    session['user_id'] = @user.id
+    login @user
     patch :update,
       id: @user,
       user: {
@@ -152,12 +141,11 @@ class UsersControllerTest < ActionController::TestCase
         password_confirmation: '',
         uploaded_picture: fixture_file_upload('files/default_avatar.png', 'image/png', :binary)
       }
-
     assert_select '#error_explanation', 0, 'The div error has been showed.'
   end
 
   test "should not update is_administrator if user is not an administrator" do
-    session['user_id'] = @user.id
+    login @user
     patch :update,
       id: @user,
       user: {
@@ -167,14 +155,12 @@ class UsersControllerTest < ActionController::TestCase
         password_confirmation: PASSWORD_VALID_FORMAT_STANDARD_FOR_UPDATE,
         is_administrator: true
       }
-
     user = User.find @user.id
     assert ! user.is_administrator, 'An user without an administrator profile can no update the is_administrator field.'
   end
 
   test "An anonymous user should not see the is_administrator field" do
     get :show, id: @user
-
     assert_select '#is_administrator', 0, 'Administrator field found.'
   end
 

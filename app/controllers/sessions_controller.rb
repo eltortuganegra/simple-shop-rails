@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   def create
     respond_to do |format|
       if is_user_loggin?
-          format.html { redirect_to user_path(session[:user_id]), notice: 'You are logged.' }
+          format.html { redirect_to user_path(session[:user][:id]), notice: 'You are logged.' }
       else
         user = nil
         if idenfitier_is_a_valid_username?
@@ -13,8 +13,9 @@ class SessionsController < ApplicationController
 
         if can_user_login? user
           session.delete(:username_or_email)
-          set_user_id_to_session user.id
-          set_user_is_administrator_to_session user.is_administrator
+          # set_user_id_to_session user.id
+          # set_user_is_administrator_to_session user.is_administrator
+          login user
           format.html { redirect_to user_path(user), notice: 'You are logged successfully.' }
           format.json { render :show, status: :created, location: user }
         else
@@ -30,9 +31,16 @@ class SessionsController < ApplicationController
     end
   end
 
-  def destroy
+  def delete
     reset_session
     redirect_to root_path
+  end
+
+  def login(user)
+    session[:user] = {
+      id: user.id,
+      is_administrator: user.is_administrator
+    }
   end
 
   private

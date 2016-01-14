@@ -17,9 +17,7 @@ class ProductsControllerTest < ActionController::TestCase
   end
 
   test "should create product" do
-    lechuck = users(:LeChuck)
-    session[:user_id] = lechuck.id
-    session[:is_administrator] = lechuck.is_administrator
+    login users(:LeChuck)
     assert_difference('Product.count') do
       post :create, product: {
         description: @product.description,
@@ -27,7 +25,6 @@ class ProductsControllerTest < ActionController::TestCase
         title: @product.title
       }
     end
-
     assert_redirected_to product_path(assigns(:product))
   end
 
@@ -42,9 +39,7 @@ class ProductsControllerTest < ActionController::TestCase
   end
 
   test "should update product" do
-    lechuck = users(:LeChuck)
-    session[:user_id] = lechuck.id
-    session[:is_administrator] = lechuck.is_administrator
+    login users(:LeChuck)
     patch :update, id: @product, product: { description: @product.description, price: @product.price, title: @product.title }
     assert_redirected_to product_path(assigns(:product))
   end
@@ -57,20 +52,20 @@ class ProductsControllerTest < ActionController::TestCase
   end
 
   test "should redirec to the product path when a product is disabled" do
+    login users(:LeChuck)
     patch :disable, id: @product
     assert_redirected_to product_path @product
   end
 
   test "should disable the product" do
+    login users(:LeChuck)
     patch :disable, id: @product
     product = Product.find(@product.id)
     assert ! product.disabled_at.nil?
   end
 
   test "should create a product without an image" do
-    lechuck = users(:LeChuck)
-    session[:user_id] = lechuck.id
-    session[:is_administrator] = lechuck.is_administrator
+    login users(:LeChuck)
     assert_difference('Product.count', 1, 'Product without image not created') do
       post :create, product: {
         description: @product.description,
@@ -81,21 +76,18 @@ class ProductsControllerTest < ActionController::TestCase
   end
 
   test "should redirect to product page when a product is created without an image" do
-    lechuck = users(:LeChuck)
-    session[:user_id] = lechuck.id
-    session[:is_administrator] = lechuck.is_administrator
-      post :create, product: {
-        description: @product.description,
-        price: @product.price,
-        title: @product.title,
-      }
+    login users(:LeChuck)
+    post :create, product: {
+      description: @product.description,
+      price: @product.price,
+      title: @product.title,
+    }
+
     assert_redirected_to product_path(assigns :product), 'Redirection is wrong'
   end
 
   test "should create a product with an image" do
-    lechuck = users(:LeChuck)
-    session[:user_id] = lechuck.id
-    session[:is_administrator] = lechuck.is_administrator
+    login users(:LeChuck)
     assert_difference('Product.count', 1, 'Product with image not created') do
       post :create, product: {
         description: @product.description,
@@ -107,9 +99,7 @@ class ProductsControllerTest < ActionController::TestCase
   end
 
   test "should redirect to product page when a product is created with an image" do
-    lechuck = users(:LeChuck)
-    session[:user_id] = lechuck.id
-    session[:is_administrator] = lechuck.is_administrator
+    login users(:LeChuck)
     post :create, product: {
         description: @product.description,
         price: @product.price,
@@ -120,9 +110,7 @@ class ProductsControllerTest < ActionController::TestCase
   end
 
   test "should update a product with an image" do
-    lechuck = users(:LeChuck)
-    session[:user_id] = lechuck.id
-    session[:is_administrator] = lechuck.is_administrator
+    login users(:LeChuck)
     patch :update,
       id: @product,
       product: {
@@ -136,9 +124,7 @@ class ProductsControllerTest < ActionController::TestCase
   end
 
   test "should update to a enable a disabled product" do
-    lechuck = users(:LeChuck)
-    session[:user_id] = lechuck.id
-    session[:is_administrator] = lechuck.is_administrator
+    login users(:LeChuck)
     disabledProduct = products(:disabledProduct)
     patch :enable,
       id: disabledProduct,
@@ -166,7 +152,7 @@ class ProductsControllerTest < ActionController::TestCase
       price: @product.price + 1
     }
     product = Product.find @product.id
-    assert product.price == @product.price, 'Anonymous user should not update a product'    
+    assert product.price == @product.price, 'Anonymous user should not update a product'
   end
 
   test "Anonymous user should be redirected to users path when update a product" do
@@ -176,5 +162,13 @@ class ProductsControllerTest < ActionController::TestCase
     assert_redirected_to products_path, 'User must be redirect to products path'
   end
 
-
+  test "Only an user with the administrator profile can to disable a product" do
+    login users(:Guybrush_Threepwood)
+    grogBottle = products(:grogBottle)
+    patch :disable, id: grogBottle, product: {
+      disabled_at: DateTime.now
+    }
+    assert Product.find(grogBottle.id).disabled_at.nil?, 'Guybrush can not disable a product! He is not administrator.'
+  end
+  
 end

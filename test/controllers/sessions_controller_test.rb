@@ -4,6 +4,9 @@ require 'users_helper'
 
 class SessionsControllerTest < ActionController::TestCase
   include UsersHelper
+  setup do
+    @lechuck = users(:LeChuck)
+  end
 
   test "should login a confirmed user with username and password" do
     lechuck = users(:LeChuck)
@@ -59,29 +62,44 @@ class SessionsControllerTest < ActionController::TestCase
       'Flash not found: The username and password that you entered did not match our records. Please double-check and try again.'
   end
 
-  test "should redirect to user's page is user is logged and try to do a login action" do
-    lechuck = users(:LeChuck)
-    session[:user_id] = lechuck.id
-    post  :create,
+  test "should redirect to user's page if user is logged and try to do a login action" do
+    login users(:LeChuck)
+
+    post :create,
       session: {
-        username_or_email: lechuck.email,
+        username_or_email: @lechuck.email,
         password: PASSWORD_VALID_FORMAT_WRONG
       }
-    assert_redirected_to user_path(lechuck), 'A logged user must be redirected to the own user\'s page.'    
+
+    assert_redirected_to user_path(@lechuck), 'A logged user must be redirected to the own user\'s page.'
   end
 
   test "should logout an logged user" do
-    lechuck = users(:LeChuck)
-    session[:user_id] = lechuck.id
-    get :destroy
+    login users(:LeChuck)
+    get :delete
     assert_equal false, session.has_key?(:user_id), 'User is not logout yet'
   end
 
   test "should redirect an to the root path when user does a logout action" do
-    lechuck = users(:LeChuck)
-    session[:user_id] = lechuck.id
-    get :destroy
+    login users(:LeChuck)
+    get :delete
     assert_redirected_to root_path, 'User is not redirected to root path'
+  end
+
+  test "should save the id if the 'lechuck' user in to the session variable" do
+    login users(:LeChuck)
+    assert session[:user][:id] == @lechuck.id, 'Lechuck not found.'
+  end
+
+  test "should return true if lechuck is logged" do
+    login users(:LeChuck)
+    assert @controller.send(:is_user_loggin?) , 'Lechuck is not logged!'
+  end
+
+  test "should logout to lechuck" do
+    login users(:LeChuck)
+    get :delete
+    assert ! session.has_key?(:user_id), 'Lechuck is logged yet!'
   end
 
 end

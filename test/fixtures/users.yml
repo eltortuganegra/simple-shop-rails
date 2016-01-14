@@ -12,7 +12,7 @@ Guybrush_Threepwood:
   email: guybrush.threepwood@themonkeyisland.com
   password_digest: <%= BCrypt::Password.create('secret') %>
   confirmation_code:
-  is_administrator:
+  is_administrator: 0
 
 LeChuck:
   username: lechuck

@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    if ! is_user_loggin? || session[:user_id] != @user.id
+    if ! is_user_loggin? || session[:user][:id] != @user.id
       render(:file => File.join(Rails.root, 'public/403.html'), :status => 403, :layout => false)
     end
   end
@@ -28,7 +28,6 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-
     respond_to do |format|
       @user.confirmation_code = SecureRandom.uuid
       if @user.save
@@ -46,14 +45,13 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
-      if is_user_loggin? && session[:user_id] == @user.id
+      if is_user_loggin? && session[:user][:id] == @user.id
         if uploaded_picture?
           uploaded_picture = params.require(:user)[:uploaded_picture]
           move_uploaded_pictured_into_default_path uploaded_picture
           @user.avatar_path = '/images/users/avatars/' + uploaded_picture.original_filename
         end
-
-        if ! username_modified? && ! email_modified? && can_the_is_administrator_field_to_be_update? && @user.update(user_params)
+        if ! username_modified? && ! email_modified? && can_the_administrator_field_to_be_update? && @user.update(user_params)
           format.html { redirect_to @user, notice: 'User was successfully updated.' }
           format.json { render :show, status: :ok, location: @user }
         else
@@ -95,7 +93,6 @@ class UsersController < ApplicationController
     respond_to do |format|
       if params[:user].present? && params[:user][:confirmation_code].present?
         @user = User.find_by confirmation_code: params[:user][:confirmation_code]
-
         if @user
             @user.confirmation_code = nil
             if @user.save(validate: false)
@@ -125,7 +122,7 @@ class UsersController < ApplicationController
   def login
     @user = User.new
     if is_user_loggin?
-      redirect_to user_path session[:user_id]
+      redirect_to user_path session[:user][:id]
     else
       @username_or_email = (session.has_key? (:username_or_email)) ?
         session[:username_or_email] :
@@ -157,7 +154,7 @@ class UsersController < ApplicationController
       @user.is_administrator != user_params[:is_administrator]
     end
 
-    def can_the_is_administrator_field_to_be_update?
+    def can_the_administrator_field_to_be_update?
       ! is_administrator_modified? || is_administrator_modified? && @user.is_administrator
     end
 

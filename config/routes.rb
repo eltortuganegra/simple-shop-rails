@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   # Login and logout
   get 'login' => 'users#login'
   post 'login' => 'sessions#create'
-  get 'logout' => 'sessions#destroy'
+  get 'logout' => 'sessions#delete'
 
   # Register process
   get 'signup' => 'users#new'

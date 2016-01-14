@@ -7,4 +7,10 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  def login(user)
+    session[:user] = {
+      id: user.id,
+      is_administrator: user.is_administrator
+    }
+  end
 end
