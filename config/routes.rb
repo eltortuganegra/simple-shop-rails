@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'press/index'
+
   # Root page
   root 'site#index'
 
@@ -12,7 +14,8 @@ Rails.application.routes.draw do
   get 'support/faq' => 'site#faq'
   get 'support/contact' => 'site#contact'
   post 'support/contact' => 'site#contact'
-  get 'support/terms_of_use' => 'site#terms_of_use'
+  get 'support/terms_of_service' => 'site#terms_of_service'
+  get 'press' => 'site#press'
 
   # Login and logout
   get 'login' => 'users#login'
@@ -23,7 +26,6 @@ Rails.application.routes.draw do
   get 'signup' => 'users#new'
   get 'confirm_account' => 'users#confirm_account'
   post 'confirm_account' => 'users#validate_confirm_account'
-
 
   # Users
   resources :users

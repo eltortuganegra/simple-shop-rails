@@ -1,11 +1,11 @@
-class SiteController < ApplicationController  
+class SiteController < ApplicationController
   def index
   end
 
   def about
   end
 
-  def terms_of_use
+  def terms_of_service
   end
 
   def privacy
@@ -22,4 +22,8 @@ class SiteController < ApplicationController
 
   def contact
   end
+
+  def press
+  end
+
 end
