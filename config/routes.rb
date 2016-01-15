@@ -11,7 +11,8 @@ Rails.application.routes.draw do
   get 'contact' => 'site#contact'
   get 'support/faq' => 'site#faq'
   get 'support/contact' => 'site#contact'
-  post 'support/contact' => 'site#contact'  
+  post 'support/contact' => 'site#contact'
+  get 'support/terms_of_use' => 'site#terms_of_use'
 
   # Login and logout
   get 'login' => 'users#login'

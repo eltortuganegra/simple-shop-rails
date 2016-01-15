@@ -12,7 +12,7 @@ class SiteControllerTest < ActionController::TestCase
   end
 
   test "should get terms" do
-    get :terms
+    get :terms_of_service
     assert_response :success
   end
 
