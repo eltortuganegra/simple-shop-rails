@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  get 'support/faq'
+
+  get 'support/rules'
+
+  get 'support/contact'
+
   get 'press/index'
 
   # Root page
