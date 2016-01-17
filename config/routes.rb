@@ -1,27 +1,16 @@
 Rails.application.routes.draw do
-
-  get 'support/faq'
-
-  get 'support/rules'
-
-  get 'support/contact'
-
-  get 'press/index'
-
   # Root page
   root 'site#index'
 
   # Static pages
   get 'about' => 'about#index'
-  get 'policies/terms_of_use' => 'site#terms_of_use'
-  get 'policies/privacy' => 'site#privacy'
-  get 'policies/cookies' => 'site#cookies_page'
+  get 'policies/terms_of_service'
+  get 'policies/privacy'
+  get 'policies/cookies' => 'policies#cookies_terms'
   get 'support/faq' => 'support#faq'
   get 'support/rules' => 'support#rules'
   get 'support/contact' => 'support#contact'
   post 'support/contact' => 'support#contact'
-
-  # press
   get 'press' => 'press#index'
 
   # Login and logout
