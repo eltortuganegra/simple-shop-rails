@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'about/index'
-
   get 'support/faq'
 
   get 'support/rules'
@@ -14,16 +12,17 @@ Rails.application.routes.draw do
   root 'site#index'
 
   # Static pages
-  get 'about' => 'site#about'
+  get 'about' => 'about#index'
   get 'policies/terms_of_use' => 'site#terms_of_use'
   get 'policies/privacy' => 'site#privacy'
   get 'policies/cookies' => 'site#cookies_page'
-  get 'contact' => 'site#contact'
-  get 'support/faq' => 'site#faq'
-  get 'support/contact' => 'site#contact'
-  post 'support/contact' => 'site#contact'
-  get 'support/terms_of_service' => 'site#terms_of_service'
-  get 'press' => 'site#press'
+  get 'support/faq' => 'support#faq'
+  get 'support/rules' => 'support#rules'
+  get 'support/contact' => 'support#contact'
+  post 'support/contact' => 'support#contact'
+
+  # press
+  get 'press' => 'press#index'
 
   # Login and logout
   get 'login' => 'users#login'
