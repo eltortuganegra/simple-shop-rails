@@ -170,5 +170,5 @@ class ProductsControllerTest < ActionController::TestCase
     }
     assert Product.find(grogBottle.id).disabled_at.nil?, 'Guybrush can not disable a product! He is not administrator.'
   end
-  
+
 end
