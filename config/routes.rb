@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+
+
   # Root page
   root 'site#index'
 
@@ -22,6 +24,9 @@ Rails.application.routes.draw do
   get 'signup' => 'users#new'
   get 'confirm_account' => 'users#confirm_account'
   post 'confirm_account' => 'users#validate_confirm_account'
+
+  #recovery password
+  get 'recovery_password' => 'recovery_password#index'
 
   # Users
   resources :users
