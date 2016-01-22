@@ -23,3 +23,6 @@
 # Ignore all images for the uploaded avatars
 /public/images/users/avatars/*
 !/public/images/users/avatars/.keep
+
+#ignore IDEA ide
+/.idea
