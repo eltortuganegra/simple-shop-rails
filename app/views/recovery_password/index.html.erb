@@ -2,6 +2,6 @@
 <p id="notice"><%= (notice.nil?)? '' : notice.html_safe %></p>
 <%= form_tag confirm_code_recovery_password_path, {method: :post, name: 'recovery_password_form'} do %>
   <p>Enter your email or username:</p>
-  <%= text_field_tag('recovery_password[email_or_username]') %>
+  <%= text_field_tag('recovery_password[username_or_email]') %>
   <%= submit_tag("recovery") %>
 <% end %>
