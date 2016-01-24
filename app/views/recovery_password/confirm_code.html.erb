@@ -1,0 +1,6 @@
+<h1>Confirm your code</h1>
+<%= form_tag '#', {method: :post, name: 'recovery_password_confirmation_code_form'} do %>
+  <p>Enter your confirmation code:</p>
+  <%= text_field_tag('recovery_password[confirmation_code]') %>
+  <%= submit_tag("confirm") %>
+<% end %>

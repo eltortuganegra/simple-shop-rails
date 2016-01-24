@@ -26,4 +26,14 @@ class RecoveryPasswordControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "Show the \"recovery_password_confirmation_code_form\" form at /recovery_password/confirm_code" do
+    get :confirm_code
+    assert_select 'form[name="recovery_password_confirmation_code_form"]', 1, 'Not form found.'
+  end
+
+  test "Show the input \"recovery_password[confirmation_code]\" at /recovery_password/confirm_code" do
+    get :confirm_code
+    assert_select 'form[name="recovery_password_confirmation_code_form"] input[name="recovery_password[confirmation_code]"]', 1, 'Input with recovery_password[confirmation_code]" not found.'
+  end
+
 end
