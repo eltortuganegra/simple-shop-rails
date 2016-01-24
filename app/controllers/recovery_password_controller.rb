@@ -3,7 +3,7 @@ class RecoveryPasswordController < ApplicationController
   end
 
   def confirm_code
-    if is_username_or_email_parameter_valid?
+    if request.get? || is_username_or_email_parameter_valid?
 
     else
       redirect_to recovery_password_path, notice: 'Username or email is not found.' + params.inspect

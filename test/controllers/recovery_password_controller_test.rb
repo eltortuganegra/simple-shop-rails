@@ -21,4 +21,9 @@ class RecoveryPasswordControllerTest < ActionController::TestCase
     assert_redirected_to recovery_password_path
   end
 
+  test "When users access to /recovery_password/confirm_code with a GET they must not be redirected" do
+    get :confirm_code
+    assert_response :success
+  end
+
 end
