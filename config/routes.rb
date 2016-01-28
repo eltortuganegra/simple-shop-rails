@@ -29,7 +29,8 @@ Rails.application.routes.draw do
   get 'recovery_password' => 'recovery_password#index'
   get 'recovery_password/confirm_code' => 'recovery_password#confirm_code'
   post 'recovery_password/confirm_code' => 'recovery_password#confirm_code', :as => :confirm_code_recovery_password
-
+  get 'recovery_password/confirm_new_password' => 'recovery_password#confirm_new_password'
+  post 'recovery_password/confirm_new_password' => 'recovery_password#confirm_new_password'
 
   # Users
   resources :users

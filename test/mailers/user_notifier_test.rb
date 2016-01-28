@@ -11,4 +11,12 @@ class UserNotifierTest < ActionMailer::TestCase
     assert_match "Confirm account", mail.body.encoded
   end
 
+  test "Recovery password email" do
+    mail = UserNotifier.recoveryPassword users(:LeChuck)
+    assert_equal "Recovery password", mail.subject
+    assert_equal [users(:LeChuck).email], mail.to
+    assert_equal [Rails.configuration.x.notificationEmail], mail.from
+    assert_match "Recovery password", mail.body.encoded
+  end
+
 end

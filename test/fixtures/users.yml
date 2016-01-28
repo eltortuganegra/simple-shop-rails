@@ -6,6 +6,7 @@ one:
   password_digest: <%= BCrypt::Password.create('secret') %>
   confirmation_code:
   is_administrator:
+  recovery_password_confirmation_code:
 
 Guybrush_Threepwood:
   username: guybrush
@@ -13,6 +14,7 @@ Guybrush_Threepwood:
   password_digest: <%= BCrypt::Password.create('secret') %>
   confirmation_code:
   is_administrator: 0
+  recovery_password_confirmation_code:
 
 LeChuck:
   username: lechuck
@@ -20,6 +22,7 @@ LeChuck:
   password_digest: <%= BCrypt::Password.create('secret') %>
   confirmation_code:
   is_administrator: 1
+  recovery_password_confirmation_code:
 
 Elaine_Marley:
   username: elaine_marley
@@ -27,6 +30,7 @@ Elaine_Marley:
   password_digest: <%= BCrypt::Password.create('secret') %>
   confirmation_code:
   is_administrator:
+  recovery_password_confirmation_code:
 
 UserPendingConfirm:
   username: peding_confirm
@@ -34,3 +38,4 @@ UserPendingConfirm:
   password_digest: <%= BCrypt::Password.create('secret') %>
   confirmation_code: valid_confirmation_code
   is_administrator:
+  recovery_password_confirmation_code:

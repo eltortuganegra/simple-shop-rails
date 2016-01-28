@@ -9,7 +9,11 @@ class UserNotifier < ApplicationMailer
     @user = user
     mail to: @user.email,
       subject: 'Confirmation action required'
+  end
 
-
+  def recoveryPassword user
+    @user = user
+    mail to: @user.email,
+        subject: 'Recovery password'
   end
 end
