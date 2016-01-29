@@ -34,6 +34,10 @@ class RecoveryPasswordController < ApplicationController
 
   def confirm_new_password
     if (! recovery_password_params.has_key? :confirmation_code) || recovery_password_params[:confirmation_code] == ''
+      redirect_to confirm_code_recovery_password_path, notice: 'Confirmation code is void.'
+    end
+    @user = User.select('id, recovery_password_confirmation_code').find_by recovery_password_confirmation_code: recovery_password_params[:confirmation_code]
+    if @user.nil?
       redirect_to confirm_code_recovery_password_path, notice: 'Confirmation code not found. '
     end
   end
@@ -41,7 +45,7 @@ class RecoveryPasswordController < ApplicationController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def recovery_password_params
-      params.fetch(:recovery_password, {}).permit(:confirmation_code)
+      params.fetch(:recovery_password, {}).permit(:username_or_email, :confirmation_code)
     end
 
     def is_username_or_email_parameter_valid?
