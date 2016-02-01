@@ -164,4 +164,9 @@ class UsersControllerTest < ActionController::TestCase
     assert_select '#is_administrator', 0, 'Administrator field found.'
   end
 
+  test "Add the link 'forget your password?' in login page." do
+    get :login
+    assert_select 'a[href="' + recovery_password_path + '"]', 1, 'Link to recovery password not found.'
+  end
+
 end
