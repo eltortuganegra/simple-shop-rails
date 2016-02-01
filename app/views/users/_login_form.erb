@@ -7,7 +7,7 @@
     <%= label_tag :password %><br>
     <%= password_field_tag 'session[password]' %>
   </div>
-
+  <p><a href="<%= recovery_password_path %>">forget your password?</a></p>
   <div class="actions">
     <%= submit_tag "log in" %>
   </div>
