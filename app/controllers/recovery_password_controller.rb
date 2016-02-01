@@ -35,10 +35,11 @@ class RecoveryPasswordController < ApplicationController
   def confirm_new_password
     if (! recovery_password_params.has_key? :confirmation_code) || recovery_password_params[:confirmation_code] == ''
       redirect_to confirm_code_recovery_password_path, notice: 'Confirmation code is void.'
-    end
-    @user = User.select('id, recovery_password_confirmation_code').find_by recovery_password_confirmation_code: recovery_password_params[:confirmation_code]
-    if @user.nil?
-      redirect_to confirm_code_recovery_password_path, notice: 'Confirmation code not found. '
+    else
+      @user = User.select('id, recovery_password_confirmation_code').find_by recovery_password_confirmation_code: recovery_password_params[:confirmation_code]
+      if @user.nil?
+        redirect_to confirm_code_recovery_password_path, notice: 'Confirmation code not found. '
+      end
     end
   end
 
