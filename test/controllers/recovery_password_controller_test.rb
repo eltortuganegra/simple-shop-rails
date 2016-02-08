@@ -68,16 +68,16 @@ class RecoveryPasswordControllerTest < ActionController::TestCase
     elaine = users(:Elaine_Marley)
     elaine.recovery_password_confirmation_code = SecureRandom.uuid
     elaine.save
-    get :confirm_code, {'confirmation_code' => elaine.recovery_password_confirmation_code }
+    get :confirm_code, {:confirmation_code => elaine.recovery_password_confirmation_code }
     assert_redirected_to recovery_password_confirm_new_password_path
   end
 
-  test "When users send a invalid confirmation code by query string redirect to confirm_code page" do
+  test "When users send a invalid confirmation code by query string then redirect to confirm_code page" do
     elaine = users(:Elaine_Marley)
-    post :confirm_new_password, recovery_password: {
-      username_or_email: ''
-    }
-    assert_redirected_to confirm_code_recovery_password_path
+    elaine.recovery_password_confirmation_code = SecureRandom.uuid
+    elaine.save
+    get :confirm_new_password, {'confirmation_code': elaine.recovery_password_confirmation_code + 'not match'}
+    assert_redirected_to recovery_password_confirm_code_path
   end
 
 end
