@@ -122,11 +122,9 @@ class UsersController < ApplicationController
   def login
     @user = User.new
     if is_user_loggin?
-      redirect_to user_path session[:user][:id]
+      redirect_to user_path(:id => session[:user][:id])
     else
-      @username_or_email = (session.has_key? (:username_or_email)) ?
-        session[:username_or_email] :
-        ''
+      @username_or_email = (session.has_key? (:username_or_email)) ? session[:username_or_email] : ''
       session.delete(:username_or_email)
     end
   end
