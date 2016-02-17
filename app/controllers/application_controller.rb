@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  before_action :session_simbolize_keys
+
   protected
     def render_404
       render :file => "#{Rails.root}/public/404", :layout => false, :status => :not_found
@@ -19,4 +21,8 @@ class ApplicationController < ActionController::Base
     def is_user_administrator?
       is_user_loggin? && session[:user].has_key?(:is_administrator) && session[:user][:is_administrator]
     end
+
+  def session_simbolize_keys
+    session[:user].symbolize_keys! if is_user_loggin?
+  end
 end
