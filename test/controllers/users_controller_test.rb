@@ -169,4 +169,10 @@ class UsersControllerTest < ActionController::TestCase
     assert_select 'a[href="' + recovery_password_path + '"]', 1, 'Link to recovery password not found.'
   end
 
+  test "When users login the toolbar show a link with the name of the user" do
+    login users(:LeChuck)
+    get :show, id: users(:LeChuck)
+    assert_select '#toolbar .username', {:count => 1, :text => users(:LeChuck).username}, 'Link to profile in toolbar is not found.'
+  end
+
 end

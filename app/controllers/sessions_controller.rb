@@ -39,6 +39,7 @@ class SessionsController < ApplicationController
   def login(user)
     session[:user] = {
       id: user.id,
+      username: user.username,
       is_administrator: user.is_administrator
     }
   end
