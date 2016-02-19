@@ -27,7 +27,7 @@
         <td><%= user.email %></td>
         <td><%= link_to 'Show', user %></td>
         <td><%
-          if session.has_key?(:user_id) && session[:user_id] == user.id
+          if session.has_key?(:user) && session[:user][:id] == user.id
             concat link_to'Edit', edit_user_path(user)
           end %>
         </td>

@@ -61,12 +61,4 @@ class SessionsController < ApplicationController
     def can_user_login? (user)
       ! user.nil? && user.confirmation_code.nil? && user.authenticate(user_params[:password])
     end
-
-    def set_user_id_to_session (user_id)
-      session[:user_id] = user_id
-    end
-
-    def set_user_is_administrator_to_session (is_administrator)
-      session[:is_administrator] = is_administrator
-    end
 end

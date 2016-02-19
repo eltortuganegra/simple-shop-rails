@@ -74,19 +74,19 @@ class SessionsControllerTest < ActionController::TestCase
     assert_redirected_to user_path(@lechuck), 'A logged user must be redirected to the own user\'s page.'
   end
 
-  test "should logout an logged user" do
+  test "should logout a logged user" do
     login users(:LeChuck)
     get :delete
-    assert_equal false, session.has_key?(:user_id), 'User is not logout yet'
+    assert_equal false, session.has_key?(:user), 'User is not logout yet'
   end
 
-  test "should redirect an to the root path when user does a logout action" do
+  test "should redirect to the root path when user does a logout action" do
     login users(:LeChuck)
     get :delete
     assert_redirected_to root_path, 'User is not redirected to root path'
   end
 
-  test "should save the id if the 'lechuck' user in to the session variable" do
+  test "should save the id if the 'lechuck' user is in to the session variable" do
     login users(:LeChuck)
     assert session[:user][:id] == @lechuck.id, 'Lechuck not found.'
   end
@@ -99,7 +99,7 @@ class SessionsControllerTest < ActionController::TestCase
   test "should logout to lechuck" do
     login users(:LeChuck)
     get :delete
-    assert ! session.has_key?(:user_id), 'Lechuck is logged yet!'
+    assert ! session.has_key?(:user), 'Lechuck is logged yet!'
   end
 
 end

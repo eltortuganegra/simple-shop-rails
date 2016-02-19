@@ -17,7 +17,7 @@
   <%= @user.email %>
 </p>
 
-<% if session.has_key?(:user_id) && session[:is_administrator] %>
+<% if session.has_key?(:user) && session[:user][:is_administrator] %>
 <p>
   <strong>Is administrator:</strong>
   <%
@@ -27,7 +27,7 @@
 <% end %>
 
 <%
-  if session.has_key?(:user_id) && session[:user_id] == @user.id
+  if session.has_key?(:user) && session[:user][:id] == @user.id
     concat link_to('Edit', edit_user_path(@user)) + ' | '
   end
 %>
