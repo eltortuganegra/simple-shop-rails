@@ -30,6 +30,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
     respond_to do |format|
       @user.confirmation_code = SecureRandom.uuid
+      @user.username.downcase!
       if @user.save
         UserNotifier.confirmationEmail(@user).deliver_now
         format.html { redirect_to confirm_account_path, notice: 'User was successfully created.' }
