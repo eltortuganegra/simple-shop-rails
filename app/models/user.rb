@@ -1,14 +1,14 @@
 class User < ActiveRecord::Base
-  USERNAME_MINIMUM_LENGHT = 3
-  USERNAME_MAXIMUM_LENGHT = 15
+  USERNAME_MINIMUM_LENGTH = 3
+  USERNAME_MAXIMUM_LENGTH = 15
   USERNAME_VALID_FORMAT_PATTERN = /\A\w+\z/
-  PASSWORD_MINIMUM_LENGHT = 6
+  PASSWORD_MINIMUM_LENGTH = 6
   EMAIL_VALID_FORMAT_PATTERN = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
 
   validates :username,
     length: {
-      minimum: USERNAME_MINIMUM_LENGHT,
-      maximum: USERNAME_MAXIMUM_LENGHT,
+      minimum: USERNAME_MINIMUM_LENGTH,
+      maximum: USERNAME_MAXIMUM_LENGTH,
     },
     format: {
       with: USERNAME_VALID_FORMAT_PATTERN,
@@ -22,14 +22,14 @@ class User < ActiveRecord::Base
   validates :password,
     presence: true,
     length: {
-      minimum: PASSWORD_MINIMUM_LENGHT
+      minimum: PASSWORD_MINIMUM_LENGTH
     },
     on: :create
 
     validates :password,
       presence: true,
       length: {
-        minimum: PASSWORD_MINIMUM_LENGHT
+        minimum: PASSWORD_MINIMUM_LENGTH
       },
       allow_blank: true,
       on: :update
