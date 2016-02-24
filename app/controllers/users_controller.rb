@@ -52,7 +52,7 @@ class UsersController < ApplicationController
           move_uploaded_pictured_into_default_path uploaded_picture
           @user.avatar_path = '/images/users/avatars/' + uploaded_picture.original_filename
         end
-        if ! username_modified? && ! email_modified? && can_the_administrator_field_to_be_update? && @user.update(user_params)
+        if ! username_modified? && ! email_modified? && can_the_administrator_field_to_be_update? && @user.save
           format.html { redirect_to @user, notice: 'User was successfully updated.' }
           format.json { render :show, status: :ok, location: @user }
         else
@@ -62,7 +62,10 @@ class UsersController < ApplicationController
           if email_modified?
             @user.errors.add(:email, 'can not be changed')
           end
-          format.html { render :edit }
+          if ! can_the_administrator_field_to_be_update?
+            @user.errors.add(:is_administrator, 'You have not permission')
+          end
+          format.html { render :edit, notice: 'Upss. ' + @user.errors.full_messages.inject {|errors, error| errors + error} }
           format.json { render json: @user.errors, status: :unprocessable_entity }
         end
       else
@@ -138,7 +141,7 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:username, :email, :password, :password_confirmation, :is_administrator)
+      params.require(:user).permit(:username, :email, :password, :password_confirmation, :is_administrator, :uploaded_picture)
     end
 
     def username_modified?
@@ -146,11 +149,11 @@ class UsersController < ApplicationController
     end
 
     def email_modified?
-      @user.email != user_params[:email]
+      ! user_params[:email].nil? && @user.email != user_params[:email]
     end
 
     def is_administrator_modified?
-      @user.is_administrator != user_params[:is_administrator]
+      ! user_params[:is_administrator].nil? && user_params[:is_administrator] != @user.is_administrator
     end
 
     def can_the_administrator_field_to_be_update?
