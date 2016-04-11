@@ -17,6 +17,7 @@ class RecoveryPasswordController < ApplicationController
           redirect_to recovery_password_path, notice: 'Username or email is not found.'
         end
       else
+        Rails::logger.debug 'username or email is not found.'
         redirect_to recovery_password_path, notice: 'Username or email is not found.'
       end
     else
