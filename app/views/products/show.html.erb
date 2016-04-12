@@ -25,6 +25,11 @@
   <strong>disabled:</strong>
   <%= @product.disabled_at %>
 </p>
+<%= form_tag(cart_path, {name: 'add_to_cart'}) do %>
 
+  <input type="hidden" name="product_id" value="<%= @product.id %>">
+  <input type="number" name="amount" size="2" min="1" placeholder="0" required/>
+  <input type="submit" name="add_to_cart" value="add to cart" />
+<% end  %>
 <%= link_to 'Edit', edit_product_path(@product) %> |
 <%= link_to 'Back', products_path %>

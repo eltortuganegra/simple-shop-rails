@@ -3,6 +3,7 @@ require 'test_helper'
 class ProductsControllerTest < ActionController::TestCase
   setup do
     @product = products(:one)
+    @grogBottle = products(:grogBottle)
   end
 
   test "should get index" do
@@ -169,6 +170,11 @@ class ProductsControllerTest < ActionController::TestCase
       disabled_at: DateTime.now
     }
     assert Product.find(grogBottle.id).disabled_at.nil?, 'Guybrush can not disable a product! He is not administrator.'
+  end
+
+  test "Add 'add to cart' link in the show section of a product" do
+    get :show, id: @grogBottle
+    assert_select 'form[name="add_to_cart"]', 1, @grogBottle.title + ' must can be bought.'
   end
 
 end

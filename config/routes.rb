@@ -39,6 +39,8 @@ Rails.application.routes.draw do
   patch 'products/:id/enable' => 'products#enable', as: :enable_product
   resources :products
 
+  #cart
+  match 'cart' => 'cart#index', via: [:get, :post]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
