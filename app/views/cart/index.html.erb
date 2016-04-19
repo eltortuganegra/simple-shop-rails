@@ -1,4 +1,7 @@
 <h1>Your cart</h1>
+<% if flash[:alert] %>
+    <p class="alert"><%= flash[:alert] %></p>
+<% end %>
 <% if ! session.has_key?('cart') %>
   <p>You have not products.</p>
   <p>You can add one or more <%= link_to 'products', products_path  %> in your cart</p>

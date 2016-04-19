@@ -41,6 +41,7 @@ Rails.application.routes.draw do
 
   #cart
   match 'cart' => 'cart#index', via: [:get, :post]
+  post '/cart/add' => 'cart#add'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
