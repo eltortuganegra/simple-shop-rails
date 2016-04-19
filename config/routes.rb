@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-
-
   # Root page
   root 'site#index'
 
@@ -42,6 +40,9 @@ Rails.application.routes.draw do
   #cart
   match 'cart' => 'cart#index', via: [:get, :post]
   post '/cart/add' => 'cart#add'
+
+  # Settings
+  get 'settings' => 'settings#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
