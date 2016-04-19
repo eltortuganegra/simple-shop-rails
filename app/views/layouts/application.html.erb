@@ -9,6 +9,9 @@
 <body>
   <div id="toolbar">
     <ul>
+      <li>
+        <a href="/" class="index">index</a>
+      </li>
       <% if session.has_key? :user %>
         <li><%= link_to session[:user][:username], user_path(session[:user][:id]), {class: 'username'} %></li>
         <li><%= link_to 'logout', logout_path %></li>
