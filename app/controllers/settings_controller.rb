@@ -3,4 +3,8 @@ class SettingsController < ApplicationController
 
   def index
   end
+
+  def disable_account
+  end
+
 end
