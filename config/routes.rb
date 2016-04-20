@@ -43,6 +43,7 @@ Rails.application.routes.draw do
 
   # Settings
   get 'settings' => 'settings#index'
+  get 'settings/disable_account' => 'settings#disable_account'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
