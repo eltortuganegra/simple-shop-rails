@@ -22,7 +22,11 @@ class ApplicationController < ActionController::Base
       is_user_loggin? && session[:user].has_key?(:is_administrator) && session[:user][:is_administrator]
     end
 
-  def session_simbolize_keys
-    session[:user].symbolize_keys! if is_user_loggin?
-  end
+    def session_simbolize_keys
+      session[:user].symbolize_keys! if is_user_loggin?
+    end
+
+    def user_must_be_logged
+      redirect_to login_url if ! is_user_loggin?
+    end
 end
