@@ -44,7 +44,7 @@ Rails.application.routes.draw do
   # Settings
   get 'settings' => 'settings#index'
   get 'settings/disable_account' => 'settings#disable_account'
-  get 'settings/disable_account/confirm' => 'settings#disable_account_confirm'
+  get 'settings/disable_account/confirmation' => 'settings#disable_account_confirmation'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
