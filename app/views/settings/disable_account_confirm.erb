@@ -1,0 +1,6 @@
+<h1>Disable your account</h1>
+<%= form_tag({}, {name: 'disable_account_confirm'}) do %>
+  <p>Confirmation code</p>
+  <p><%= text_field_tag 'confirmation_code', nil, placeholder: "Enter your confirmation code" %></p>
+  <p><%= submit_tag 'disable my account' %></p>
+<% end %>

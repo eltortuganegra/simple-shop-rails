@@ -7,4 +7,6 @@ class SettingsController < ApplicationController
   def disable_account
   end
 
+  def disable_account_confirm
+  end
 end

@@ -26,4 +26,17 @@ class SettingsControllerTest < ActionController::TestCase
     get :disable_account
     assert_select '#content a[href="' + settings_path + '"]', 1, 'Link to the confirmation page for disable the account is not found.'
   end
+
+  test "LeChuck must can access to the confirmation page for disable his account" do
+    login users(:LeChuck)
+    get :disable_account_confirm
+    assert_response :success
+  end
+
+  test "LeChuck must can see the form for disable his account" do
+    login users(:LeChuck)
+    get :disable_account_confirm
+    assert_select 'form[name="disable_account_confirm"]'
+  end
+
 end
