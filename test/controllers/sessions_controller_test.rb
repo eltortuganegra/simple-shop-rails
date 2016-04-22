@@ -93,7 +93,7 @@ class SessionsControllerTest < ActionController::TestCase
 
   test "should return true if lechuck is logged" do
     login users(:LeChuck)
-    assert @controller.send(:is_user_loggin?) , 'Lechuck is not logged!'
+    assert @controller.send(:is_user_logged?) , 'Lechuck is not logged!'
   end
 
   test "should logout to lechuck" do

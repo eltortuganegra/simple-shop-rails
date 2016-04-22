@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    if ! is_user_loggin? || session[:user][:id] != @user.id
+    if ! is_user_logged? || session[:user][:id] != @user.id
       render(:file => File.join(Rails.root, 'public/403.html'), :status => 403, :layout => false)
     end
   end
@@ -46,7 +46,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
-      if is_user_loggin? && session[:user][:id] == @user.id
+      if is_user_logged? && session[:user][:id] == @user.id
         if uploaded_picture?
           uploaded_picture = params.require(:user)[:uploaded_picture]
           move_uploaded_pictured_into_default_path uploaded_picture
@@ -125,7 +125,7 @@ class UsersController < ApplicationController
   # GET /login
   def login
     @user = User.new
-    if is_user_loggin?
+    if is_user_logged?
       redirect_to user_path({:id => session[:user]['id']})
     else
       @username_or_email = (session.has_key? (:username_or_email)) ? session[:username_or_email] : ''

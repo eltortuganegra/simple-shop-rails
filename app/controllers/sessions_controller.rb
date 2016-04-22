@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   def create
     respond_to do |format|
-      if is_user_loggin?
+      if is_user_logged?
           format.html { redirect_to user_path(session[:user][:id]), notice: 'You are logged.' }
       else
         user = nil

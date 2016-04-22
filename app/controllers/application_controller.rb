@@ -14,19 +14,19 @@ class ApplicationController < ActionController::Base
       reset_session
     end
 
-    def is_user_loggin?
+    def is_user_logged?
       session.has_key?(:user) && ! session[:user].nil?
     end
 
     def is_user_administrator?
-      is_user_loggin? && session[:user].has_key?(:is_administrator) && session[:user][:is_administrator]
+      is_user_logged? && session[:user].has_key?(:is_administrator) && session[:user][:is_administrator]
     end
 
     def session_simbolize_keys
-      session[:user].symbolize_keys! if is_user_loggin?
+      session[:user].symbolize_keys! if is_user_logged?
     end
 
     def user_must_be_logged
-      redirect_to login_url if ! is_user_loggin?
+      redirect_to login_url if ! is_user_logged?
     end
 end
