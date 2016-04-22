@@ -39,4 +39,13 @@ class SettingsControllerTest < ActionController::TestCase
     assert_select 'form[name="disable_account_confirm"]'
   end
 
+  test "When LeChuck send an invalid confirmation code an error is shown" do
+    login users(:LeChuck)
+    post :disable_account_confirmation,
+         settings: {
+             confirmation_code: 'invalid code confirmation'
+         }
+    assert_select '#content p.alert', 1, 'Alert is not found'
+  end
+
 end
