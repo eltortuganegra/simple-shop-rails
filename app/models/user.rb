@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   PASSWORD_MINIMUM_LENGTH = 6
   EMAIL_VALID_FORMAT_PATTERN = /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
 
+  has_one :setting
+
   validates :username,
     length: {
       minimum: USERNAME_MINIMUM_LENGTH,

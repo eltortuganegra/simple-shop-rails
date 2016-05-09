@@ -1,24 +1,59 @@
 require 'test_helper'
-require 'users_helper'
 
 class SettingsControllerTest < ActionController::TestCase
-  include UsersHelper
+  fixtures :settings
 
-  test "When LeChuck is logged he must get the settings page" do
+  setup do
+    @setting = settings(:one)
+  end
+
+  test "Anonymous users should not get edit" do
+    get :edit
+    assert_redirected_to login_url
+  end
+
+  test "LeChuck should get edit" do
     login users(:LeChuck)
-    get :index
+    get :edit, id: @setting
     assert_response :success
   end
 
-  test "Anomymous users must be redirected to login page" do
-    get :index
+  test "Anybody should not get setting show" do
+    get :show, id: @setting
+    assert_redirected_to login_url
+  end
+
+  test "Anybody should not get edit" do
+    get :edit, id: @setting
+    assert_redirected_to login_url
+  end
+
+  test "Anonymous users should not update setting" do
+    patch :update, id: @setting, setting: { confirmation_code: @setting.confirmation_code }
+    assert_redirected_to login_url
+  end
+
+  test "LeChuck should update setting" do
+    login users(:LeChuck)
+    patch :update, id: @setting, setting: { confirmation_code: @setting.confirmation_code }
+    assert_redirected_to setting_path(assigns(:setting))
+  end
+
+  test "When the anomymous users get settings page they must be redirected to login page" do
+    get :edit
     assert_redirected_to login_url, 'Anonymous users must not get the setting page.'
   end
 
-  test "LeChuck must can see the link for the confirmation the disable account into the settings disable account" do
+  test "When LeChuck is logged he must can get the settings page" do
     login users(:LeChuck)
-    get :disable_account
-    assert_select 'a[href="' + settings_disable_account_confirmation_path + '"]', 1, 'Link to the confirmation page for disable the account is not found.'
+    get :edit
+    assert_response :success
+  end
+
+  test "Lechuck must be see the link for disable his account in the settings page" do
+    login users(:LeChuck)
+    get :edit
+    assert_select '#content a[href="' + settings_disable_account_path + '"]', 1, 'link to disable account page is not found'
   end
 
   test "LeChuck must can see the link for back the setting page into the settings disable account page" do
@@ -27,16 +62,33 @@ class SettingsControllerTest < ActionController::TestCase
     assert_select '#content a[href="' + settings_path + '"]', 1, 'Link to the confirmation page for disable the account is not found.'
   end
 
+  test "LeChuck must can see the link for the confirmation for disable his account into the settings disable account" do
+    login users(:LeChuck)
+    get :disable_account
+    assert_select '#content a[href="' + settings_disable_account_confirmation_path + '"]', 1, 'Link to the confirmation page for disable the account is not found.'
+  end
+
+  test "When anonymous users get the confirmation page for disable their accounts they are redirect to the login page" do
+    get :disable_account_confirmation
+    assert_redirected_to login_url, 'Anonymous users must be redirect to the login page'
+  end
+
   test "LeChuck must can access to the confirmation page for disable his account" do
     login users(:LeChuck)
     get :disable_account_confirmation
     assert_response :success
   end
 
-  test "LeChuck must can see the form for disable his account" do
+  test "LeChuck must can see the form for the confirmation for disable his account" do
     login users(:LeChuck)
     get :disable_account_confirmation
     assert_select 'form[name="disable_account_confirm"]'
+  end
+
+  test "When LeChuck get the confirmation page for disable his account a new confirmation code is created" do
+    login users(:LeChuck)
+    get :disable_account_confirmation
+    assert_not_nil settings(:LeChuckSettings).confirmation_code, 'Confirmation code is not being saved into the database'
   end
 
   test "When LeChuck send an invalid confirmation code an error is shown" do

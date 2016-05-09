@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   # Root page
   root 'site#index'
 
@@ -23,7 +24,7 @@ Rails.application.routes.draw do
   get 'confirm_account' => 'users#confirm_account'
   post 'confirm_account' => 'users#validate_confirm_account'
 
-  #recovery password
+  # Recovery password
   get 'recovery_password' => 'recovery_password#index'
   match 'recovery_password/confirm_code' => 'recovery_password#confirm_code', via: [:get, :post]
   match 'recovery_password/confirm_new_password' => 'recovery_password#confirm_new_password', via: [:get, :post]
@@ -32,17 +33,21 @@ Rails.application.routes.draw do
   # Users
   resources :users
 
-  #products
+  # Products
   patch 'products/:id/disable' => 'products#disable', as: :disable_product
   patch 'products/:id/enable' => 'products#enable', as: :enable_product
   resources :products
 
-  #cart
+  # Cart
   match 'cart' => 'cart#index', via: [:get, :post]
   post '/cart/add' => 'cart#add'
 
   # Settings
-  get 'settings' => 'settings#index'
+  # resources :settings
+  get 'settings', to: 'settings#edit', as: :settings
+  get 'settings', to: 'settings#edit', as: :setting
+  get 'settings', to: 'settings#update'
+  get 'settings/show', to: 'settings#show'
   get 'settings/disable_account' => 'settings#disable_account'
   match 'settings/disable_account/confirmation' => 'settings#disable_account_confirmation', via: [:get, :post]
 

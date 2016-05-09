@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160209075824) do
+ActiveRecord::Schema.define(version: 20160429055952) do
+
+  create_table "artist", primary_key: "artistid", force: :cascade do |t|
+    t.text "artistname"
+  end
 
   create_table "products", force: :cascade do |t|
     t.string   "title"
@@ -21,6 +25,19 @@ ActiveRecord::Schema.define(version: 20160209075824) do
     t.datetime "updated_at",                                                    null: false
     t.datetime "disabled_at"
     t.string   "image_url",   limit: 256
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "confirmation_code"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  create_table "track", id: false, force: :cascade do |t|
+    t.integer "trackid"
+    t.text    "trackname"
+    t.integer "trackartist"
   end
 
   create_table "users", force: :cascade do |t|
