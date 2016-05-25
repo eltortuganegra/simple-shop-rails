@@ -1,12 +1,12 @@
 require 'test_helper'
 
-class UserNotifierTest < ActionMailer::TestCase
+class UserMailerTest < ActionMailer::TestCase
   include Rails.application.routes.url_helpers
 
   test "confirmationEmail" do
     user_pending_confirm = users(:UserPendingConfirm)
 
-    mail = UserNotifier.confirmationEmail user_pending_confirm
+    mail = UserMailer.confirmationEmail user_pending_confirm
     assert_equal "Confirmation action required", mail.subject
     assert_equal [user_pending_confirm.email], mail.to
     assert_equal [Rails.configuration.x.notificationEmail], mail.from
@@ -14,7 +14,7 @@ class UserNotifierTest < ActionMailer::TestCase
   end
 
   test "Recovery password email" do
-    mail = UserNotifier.recoveryPassword users(:LeChuck)
+    mail = UserMailer.recoveryPassword users(:LeChuck)
     assert_equal "Recovery password", mail.subject
     assert_equal [users(:LeChuck).email], mail.to
     assert_equal [Rails.configuration.x.notificationEmail], mail.from
@@ -22,7 +22,7 @@ class UserNotifierTest < ActionMailer::TestCase
   end
 
   test "When lechuck disable his account he must received an email" do
-    disableYourAccountMail = UserNotifier.disableYourAccount(users(:LeChuck), settings(:LeChuckSettings)).deliver_now
+    disableYourAccountMail = UserMailer.disableYourAccount(users(:LeChuck), settings(:LeChuckSettings)).deliver_now
     lechuckEmail = read_fixture('disable_your_account_lechuck')
       .join('')
       .sub!('<%= @user.username %>', users(:LeChuck).username )

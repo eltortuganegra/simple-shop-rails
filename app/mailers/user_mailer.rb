@@ -1,9 +1,9 @@
-class UserNotifier < ApplicationMailer
+class UserMailer < ApplicationMailer
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
-  #   en.user_notifier.confirmationEmail.subject
+  #   en.user_mailer.confirmationEmail.subject
   #
   def confirmationEmail user
     @user = user

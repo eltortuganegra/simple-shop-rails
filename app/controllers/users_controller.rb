@@ -32,7 +32,7 @@ class UsersController < ApplicationController
       @user.confirmation_code = SecureRandom.uuid
       @user.username.downcase!
       if @user.save
-        UserNotifier.confirmationEmail(@user).deliver_now
+        UserMailer.confirmationEmail(@user).deliver_now
         format.html { redirect_to confirm_account_path, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else

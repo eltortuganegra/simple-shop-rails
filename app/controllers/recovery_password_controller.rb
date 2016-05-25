@@ -10,7 +10,7 @@ class RecoveryPasswordController < ApplicationController
           user.recovery_password_confirmation_code = SecureRandom.uuid
           if user.save
             session[:recovery_password_confirmation_code] = user.recovery_password_confirmation_code
-            UserNotifier.recoveryPassword(user).deliver_now
+            UserMailer.recoveryPassword(user).deliver_now
             flash[:notice] = "You have an email."
           end
         else
