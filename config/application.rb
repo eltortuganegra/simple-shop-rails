@@ -25,5 +25,6 @@ module SimpleShopRails
 
     # Default email for notification 
     config.x.notificationEmail = 'notification@simpleshoprails.com'
+    config.action_mailer.default_url_options = Rails.application.routes.default_url_options[:host]
   end
 end

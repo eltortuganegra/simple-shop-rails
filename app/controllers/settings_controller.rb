@@ -76,6 +76,7 @@ class SettingsController < ApplicationController
     else
       @setting.confirmation_code = SecureRandom.uuid
       @setting.save
+      UserNotifier.disableYourAccount(User.find_by(id: get_logged_user_identifier), @setting).deliver_now
     end
   end
 

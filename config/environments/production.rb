@@ -76,6 +76,8 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+  config.action_mailer.default_url_options = { :host => "simpleshoprails.com" }
 
   config.x.domain = 'production.environment.simpleshoprails.com'
+  Rails.application.routes.default_url_options[:host] = 'localhost:3000'
 end

@@ -16,4 +16,11 @@ class UserNotifier < ApplicationMailer
     mail to: @user.email,
         subject: 'Recovery password'
   end
+
+  def disableYourAccount user, setting
+    @user = user
+    @setting = setting
+    @disable_url = settings_disable_account_confirmation_url + '?confirmation_code=' + @setting.confirmation_code.to_s
+    mail to: @user.email, subject: 'Request for disable your account'
+  end
 end

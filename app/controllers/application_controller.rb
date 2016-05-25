@@ -29,4 +29,8 @@ class ApplicationController < ActionController::Base
     def user_must_be_logged
       redirect_to login_url if ! is_user_logged?
     end
+
+    def get_logged_user_identifier
+      session[:user][:id]
+    end
 end

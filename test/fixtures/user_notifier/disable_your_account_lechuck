@@ -1,0 +1,5 @@
+<h1>Hi <%= @user.username %>,</h1>
+<p>We have received a request for disable your account.</p>
+<p>If you are sure your confirmation code is: <%= @setting.confirmation_code %></p>
+<p>You too click in this link: <%= @disable_url %></p>
+<p>Greetings!</p>
