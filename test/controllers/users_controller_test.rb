@@ -175,4 +175,16 @@ class UsersControllerTest < ActionController::TestCase
     assert_select '#toolbar .username', {:count => 1, :text => users(:LeChuck).username}, 'Link to profile in toolbar is not found.'
   end
 
+  test "When users sign up they must have their setting" do
+    post :create,
+     user: {
+       email: @new_user.email,
+       password: PASSWORD_VALID_FORMAT_STANDARD_FOR_ALL_USERS,
+       password_confirmation: PASSWORD_VALID_FORMAT_STANDARD_FOR_ALL_USERS,
+       username: @new_user.username
+     }
+    createdUser = User.find_by({email: @new_user.email})
+    assert Setting.find_by({user_id: createdUser.id}) != nil, 'Settings for user not found.'
+  end
+
 end

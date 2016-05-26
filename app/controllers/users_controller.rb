@@ -32,9 +32,15 @@ class UsersController < ApplicationController
       @user.confirmation_code = SecureRandom.uuid
       @user.username.downcase!
       if @user.save
-        UserMailer.confirmationEmail(@user).deliver_now
-        format.html { redirect_to confirm_account_path, notice: 'User was successfully created.' }
-        format.json { render :show, status: :created, location: @user }
+        userSetting = Setting.new({user_id: @user.id+1})
+        if userSetting.save!
+          UserMailer.confirmationEmail(@user).deliver_now
+          format.html { redirect_to confirm_account_path, notice: 'User was successfully created.' }
+          format.json { render :show, status: :created, location: @user }
+        else
+          format.html { render :new }
+          format.json { render json: userSetting.errors, status: :unprocessable_entity }
+        end
       else
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }
