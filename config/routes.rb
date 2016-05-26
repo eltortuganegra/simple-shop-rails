@@ -50,6 +50,7 @@ Rails.application.routes.draw do
   get 'settings/show', to: 'settings#show'
   get 'settings/disable_account' => 'settings#disable_account'
   match 'settings/disable_account/confirmation' => 'settings#disable_account_confirmation', via: [:get, :post], as: 'settings_disable_account_confirmation'
+  get 'settings/disable_account/confirmed' => 'settings#disable_account_confirmed'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

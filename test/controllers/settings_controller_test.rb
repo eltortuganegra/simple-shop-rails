@@ -100,4 +100,14 @@ class SettingsControllerTest < ActionController::TestCase
     assert_select '#content p.alert', 1, 'Alert is not found'
   end
 
+  test "When the users introduces a valid confirmation code they are redirected to the page of the disable your account confirmed" do
+    login users(:LeChuck)
+    get :disable_account_confirmation
+    post :disable_account_confirmation,
+        settings: {
+            confirmation_code: settings(:LeChuckSettings).confirmation_code
+        }
+    assert_redirected_to settings_disable_account_confirmed_url
+  end
+
 end

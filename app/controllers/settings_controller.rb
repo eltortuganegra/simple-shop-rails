@@ -72,12 +72,17 @@ class SettingsController < ApplicationController
         flash.now[:alert] = 'Confirmation code is void. Please, review your email and verify your confirmation code.'
       elsif ! is_confirmation_code_valid?
         flash.now[:alert] = 'Confirmation code not found. Please, review your email and verify your confirmation code.'
+      else
+        redirect_to settings_disable_account_confirmed_url
       end
     else
       @setting.confirmation_code = SecureRandom.uuid
       @setting.save
       UserMailer.disableYourAccount(User.find_by(id: get_logged_user_identifier), @setting).deliver_now
     end
+  end
+
+  def disable_account_confirmed
   end
 
   private
@@ -96,7 +101,7 @@ class SettingsController < ApplicationController
     end
 
     def is_confirmation_code_valid?
-      false
+      @setting.confirmation_code == setting_params[:confirmation_code]
     end
 
     def is_confirmation_code_coming?
