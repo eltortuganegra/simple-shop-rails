@@ -17,9 +17,9 @@
         <td>
         <%
           if user.avatar_path.nil?
-            concat image_tag 'users/default_avatar.png'
+            concat image_tag 'users/default_avatar.png', width: 100
           else
-            concat image_tag user.avatar_path
+            concat image_tag user.avatar_path, width: 100
           end
         %>
         </td>
