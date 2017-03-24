@@ -32,7 +32,7 @@ class UsersController < ApplicationController
       @user.confirmation_code = SecureRandom.uuid
       @user.username.downcase!
       if @user.save
-        userSetting = Setting.new({user_id: @user.id+1})
+        userSetting = Setting.new({user_id: @user.id})
         if userSetting.save!
           UserMailer.confirmationEmail(@user).deliver_now
           format.html { redirect_to confirm_account_path, notice: 'User was successfully created.' }

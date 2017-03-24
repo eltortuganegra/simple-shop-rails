@@ -156,7 +156,7 @@ class UsersControllerTest < ActionController::TestCase
         is_administrator: true
       }
     user = User.find @user.id
-    assert ! user.is_administrator, 'An user without an administrator profile can no update the is_administrator field.'
+    assert ! user.is_administrator, 'A user without an administrator profile can no update the is_administrator field.'
   end
 
   test "An anonymous user should not see the is_administrator field" do
@@ -183,8 +183,11 @@ class UsersControllerTest < ActionController::TestCase
        password_confirmation: PASSWORD_VALID_FORMAT_STANDARD_FOR_ALL_USERS,
        username: @new_user.username
      }
+
     createdUser = User.find_by({email: @new_user.email})
-    assert Setting.find_by({user_id: createdUser.id}) != nil, 'Settings for user not found.'
+    setting = Setting.find_by({user_id: createdUser.id})
+
+    assert setting != nil, 'Settings for user not found.'
   end
 
 end
