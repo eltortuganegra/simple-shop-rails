@@ -110,4 +110,16 @@ class SettingsControllerTest < ActionController::TestCase
     assert_redirected_to settings_disable_account_confirmed_url
   end
 
+  test "When LeChuck introduces a valid confirmation code his account must be disabled" do
+    login users(:LeChuck)
+    get :disable_account_confirmation
+    post :disable_account_confirmation,
+         settings: {
+             confirmation_code: settings(:LeChuckSettings).confirmation_code
+         }
+    LeChuck = User.find users(:LeChuck).id
+
+    assert_not LeChuck.is_account_enable, 'Account has not been disabled'
+  end
+
 end

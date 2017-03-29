@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160429055952) do
+ActiveRecord::Schema.define(version: 20170327065205) do
 
   create_table "products", force: :cascade do |t|
     t.string   "title"
@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20160429055952) do
     t.string   "avatar_path",                         limit: 256
     t.boolean  "is_administrator",                                default: false
     t.string   "recovery_password_confirmation_code"
+    t.boolean  "is_account_enable",                               default: true
   end
 
   add_index "users", ["confirmation_code"], name: "index_users_on_confirmation_code"
